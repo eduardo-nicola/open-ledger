@@ -16,8 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Finanças",
-  description: "Gestão financeira pessoal",
+  title: {
+    default: "OpenLedger",
+    template: "%s · OpenLedger",
+  },
+  description:
+    "OpenLedger — gestão financeira pessoal: cartões, saldo em conta e lançamentos.",
 };
 
 export const viewport: Viewport = {

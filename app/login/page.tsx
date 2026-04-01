@@ -63,7 +63,7 @@ export default function LoginPage() {
           >
             <CardHeader className="flex flex-col gap-2 items-start pb-1">
               <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-                Finanças pessoais
+                OpenLedger
               </p>
               <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                 Bem-vindo

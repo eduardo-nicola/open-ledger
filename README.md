@@ -1,6 +1,6 @@
-# Finanças — gestão pessoal
+# OpenLedger
 
-App **Next.js** (App Router) para uso familiar: cartões de crédito com limite e fatura, **saldo em conta** separado e **pagamento de fatura** debitando a conta. Interface **mobile-first**, com coluna central no desktop (estilo “app no centro da tela”).
+App **Next.js** (App Router) chamado **OpenLedger**, para uso familiar: cartões de crédito com limite e fatura, **saldo em conta** separado e **pagamento de fatura** debitando a conta. Interface **mobile-first**, com coluna central no desktop (estilo “app no centro da tela”).
 
 - **UI:** [HeroUI](https://www.heroui.com/) (ex-NextUI) + Tailwind CSS v4  
 - **Auth + dados:** Firebase Authentication (Google) + Firestore  

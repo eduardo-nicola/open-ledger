@@ -38,7 +38,7 @@ export default function HomePage() {
     <div className="space-y-7">
       <header className="space-y-1">
         <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-          Painel
+          OpenLedger
         </p>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Resumo
