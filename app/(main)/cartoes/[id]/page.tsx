@@ -70,7 +70,7 @@ export default function CartaoDetalhePage() {
   return (
     <div className="space-y-4">
       <div className="flex gap-2 items-center">
-        <Button as={Link} href="/cartoes" size="sm" variant="light" className="min-h-10">
+        <Button as={Link} href="/cartoes" size="sm" variant="light" className="h-9 min-h-9">
           ← Cartões
         </Button>
       </div>
@@ -79,7 +79,7 @@ export default function CartaoDetalhePage() {
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">{card.name}</h1>
       </div>
 
-      <Card shadow="none" radius="lg" className="glass-card">
+      <Card shadow="none" radius="lg" className="ol-card">
         <CardHeader className="flex flex-col items-start gap-2">
           <span className="text-small text-default-500">Fatura atual</span>
           <span className="text-2xl font-semibold tabular-nums">
@@ -100,7 +100,8 @@ export default function CartaoDetalhePage() {
             as={Link}
             href={`/lancamento?cartao=${card.id}`}
             color="primary"
-            className="min-h-11"
+            size="md"
+            className="h-9 min-h-9"
           >
             Nova despesa
           </Button>
@@ -109,7 +110,8 @@ export default function CartaoDetalhePage() {
             href={`/pagar-cartao?cartao=${card.id}`}
             color="secondary"
             variant="flat"
-            className="min-h-11"
+            size="md"
+            className="h-9 min-h-9"
           >
             Pagar com saldo em conta
           </Button>

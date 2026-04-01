@@ -16,6 +16,7 @@ import { Suspense, useEffect, useState } from "react";
 
 import { useAuth } from "@/components/auth-provider";
 import { useCards, useWallet } from "@/components/finance-data-provider";
+import { compactInput, compactSelect } from "@/lib/heroui-density";
 import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
 import { payCardFromAccount } from "@/services/finance/finance-service";
 
@@ -93,7 +94,7 @@ function PagarCartaoContent() {
 
   return (
     <div className="space-y-6">
-      <Button as={Link} href="/cartoes" size="sm" variant="light" radius="lg" className="min-h-10 px-0">
+      <Button as={Link} href="/cartoes" size="sm" variant="light" radius="lg" className="h-9 min-h-9 px-0">
         ← Cartões
       </Button>
       <div className="space-y-1">
@@ -104,7 +105,7 @@ function PagarCartaoContent() {
         </p>
       </div>
 
-      <Card shadow="none" radius="lg" className="glass-card">
+      <Card shadow="none" radius="lg" className="ol-card">
         <CardHeader>
           <span className="font-semibold text-foreground">Dados do pagamento</span>
         </CardHeader>
@@ -118,12 +119,13 @@ function PagarCartaoContent() {
               <Select
                 label="Cartão"
                 placeholder="Selecione"
+                size="sm"
                 selectedKeys={cardId ? new Set([cardId]) : new Set()}
                 onSelectionChange={(keys) => {
                   const v = Array.from(keys)[0];
                   setCardId(v ? String(v) : "");
                 }}
-                classNames={{ trigger: "min-h-12" }}
+                classNames={compactSelect}
               >
                 {cards.map((c) => (
                   <SelectItem key={c.id} textValue={c.name}>
@@ -142,23 +144,26 @@ function PagarCartaoContent() {
               <Input
                 type="date"
                 label="Data"
+                size="sm"
                 value={date}
                 onValueChange={setDate}
-                classNames={{ inputWrapper: "min-h-12" }}
+                classNames={compactInput}
               />
               <Input
                 label="Valor (R$)"
                 placeholder="0,00"
+                size="sm"
                 inputMode="decimal"
                 value={amountStr}
                 onValueChange={setAmountStr}
-                classNames={{ inputWrapper: "min-h-12" }}
+                classNames={compactInput}
               />
               <Input
                 label="Descrição (opcional)"
+                size="sm"
                 value={desc}
                 onValueChange={setDesc}
-                classNames={{ inputWrapper: "min-h-12" }}
+                classNames={compactInput}
               />
             </>
           )}
@@ -171,9 +176,9 @@ function PagarCartaoContent() {
 
           <Button
             color="primary"
-            size="lg"
+            size="md"
             radius="lg"
-            className="min-h-12 w-full font-semibold"
+            className="h-10 min-h-10 w-full text-small font-semibold"
             isLoading={saving}
             isDisabled={cards.length === 0 || !cardId}
             onPress={() => void handlePay()}

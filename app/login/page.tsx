@@ -36,7 +36,7 @@ export default function LoginPage() {
   if (!isFirebaseConfigured()) {
     return (
       <div className="page-app-gradient flex items-center justify-center p-6">
-        <Card className="glass-card w-full max-w-md" shadow="none" radius="lg">
+        <Card className="ol-card w-full max-w-md" shadow="none" radius="lg">
           <CardHeader className="text-lg font-semibold">Configuração necessária</CardHeader>
           <CardBody className="text-default-600 text-small leading-relaxed">
             Defina as variáveis <code className="text-primary">NEXT_PUBLIC_FIREBASE_*</code> em{" "}
@@ -56,7 +56,7 @@ export default function LoginPage() {
           <ThemeToggle />
         </header>
         <div className="flex flex-1 flex-col items-center justify-center px-6 pb-12">
-          <Card className="glass-card w-full max-w-sm" shadow="none" radius="lg">
+          <Card className="ol-card w-full max-w-sm" shadow="none" radius="lg">
             <CardHeader className="flex flex-col gap-2 items-start pb-1">
               <p className="text-xs font-semibold uppercase tracking-wider text-primary">
                 OpenLedger
@@ -76,10 +76,10 @@ export default function LoginPage() {
               ) : null}
               <Button
                 color="primary"
-                size="lg"
-                className="w-full min-h-12 font-semibold"
+                size="md"
+                className="h-10 min-h-10 w-full text-small font-semibold"
                 radius="lg"
-                startContent={<LogIn className="h-5 w-5" strokeWidth={2} />}
+                startContent={<LogIn className="h-4 w-4" strokeWidth={2} />}
                 isLoading={busy || loading}
                 onPress={() => void handleGoogle()}
               >

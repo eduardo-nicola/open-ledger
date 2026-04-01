@@ -15,6 +15,7 @@ import { Suspense, useEffect, useState } from "react";
 
 import { useAuth } from "@/components/auth-provider";
 import { useCards } from "@/components/finance-data-provider";
+import { compactInput, compactSelect } from "@/lib/heroui-density";
 import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
 import {
   addAccountMovement,
@@ -105,7 +106,7 @@ function LancamentoContent() {
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">Novo lançamento</h1>
       </div>
 
-      <Card shadow="none" radius="lg" className="glass-card">
+      <Card shadow="none" radius="lg" className="ol-card">
         <CardHeader>
           <span className="text-small text-default-500 font-medium">
             Tipo de lançamento
@@ -114,6 +115,7 @@ function LancamentoContent() {
         <CardBody className="gap-4">
           <Select
             label="Tipo"
+            size="sm"
             selectedKeys={new Set([tipo])}
             onSelectionChange={(keys) => {
               const v = Array.from(keys)[0];
@@ -121,7 +123,7 @@ function LancamentoContent() {
                 setTipo(v);
               }
             }}
-            classNames={{ trigger: "min-h-12" }}
+            classNames={compactSelect}
           >
             <SelectItem key="expense_card">Despesa no cartão</SelectItem>
             <SelectItem key="account_credit">Entrada na conta</SelectItem>
@@ -137,12 +139,13 @@ function LancamentoContent() {
               <Select
                 label="Cartão"
                 placeholder="Selecione"
+                size="sm"
                 selectedKeys={cardId ? new Set([cardId]) : new Set()}
                 onSelectionChange={(keys) => {
                   const v = Array.from(keys)[0];
                   setCardId(v ? String(v) : "");
                 }}
-                classNames={{ trigger: "min-h-12" }}
+                classNames={compactSelect}
               >
                 {cards.map((c) => (
                   <SelectItem
@@ -160,23 +163,26 @@ function LancamentoContent() {
           <Input
             type="date"
             label="Data"
+            size="sm"
             value={date}
             onValueChange={setDate}
-            classNames={{ inputWrapper: "min-h-12" }}
+            classNames={compactInput}
           />
           <Input
             label="Valor (R$)"
             placeholder="0,00"
+            size="sm"
             inputMode="decimal"
             value={amountStr}
             onValueChange={setAmountStr}
-            classNames={{ inputWrapper: "min-h-12" }}
+            classNames={compactInput}
           />
           <Input
             label="Descrição (opcional)"
+            size="sm"
             value={desc}
             onValueChange={setDesc}
-            classNames={{ inputWrapper: "min-h-12" }}
+            classNames={compactInput}
           />
 
           {error ? (
@@ -187,9 +193,9 @@ function LancamentoContent() {
 
           <Button
             color="primary"
-            size="lg"
+            size="md"
             radius="lg"
-            className="min-h-12 w-full font-semibold"
+            className="h-10 min-h-10 w-full text-small font-semibold"
             isLoading={saving}
             isDisabled={tipo === "expense_card" && cards.length === 0}
             onPress={() => void handleSubmit()}

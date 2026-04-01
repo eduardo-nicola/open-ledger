@@ -8,6 +8,7 @@ import {
   useRecentTransactions,
   useWallet,
 } from "@/components/finance-data-provider";
+import { compactInput } from "@/lib/heroui-density";
 import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
 import { addAccountMovement } from "@/services/finance/finance-service";
 import type { Transaction } from "@/lib/types";
@@ -75,7 +76,7 @@ export default function ContaPage() {
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">Conta</h1>
       </header>
 
-      <Card shadow="none" radius="lg" className="glass-card">
+      <Card shadow="none" radius="lg" className="ol-card">
         <CardHeader className="flex flex-col items-start gap-1 pb-0">
           <span className="text-small text-default-500 font-medium">Saldo em conta</span>
           {wallet ? (
@@ -91,7 +92,7 @@ export default function ContaPage() {
         </CardBody>
       </Card>
 
-      <Card shadow="none" radius="lg" className="glass-card">
+      <Card shadow="none" radius="lg" className="ol-card">
         <CardHeader>
           <span className="font-semibold text-foreground">Lançar na conta</span>
         </CardHeader>
@@ -104,19 +105,24 @@ export default function ContaPage() {
           <Input
             label="Valor (R$)"
             placeholder="0,00"
+            size="sm"
             inputMode="decimal"
             value={amountStr}
             onValueChange={setAmountStr}
+            classNames={compactInput}
           />
           <Input
             label="Descrição (opcional)"
+            size="sm"
             value={desc}
             onValueChange={setDesc}
+            classNames={compactInput}
           />
           <div className="flex flex-col gap-2">
             <Button
               color="success"
-              className="min-h-12"
+              size="md"
+              className="h-10 min-h-10 w-full text-small font-semibold"
               isLoading={busy === "in"}
               onPress={() => void submit("account_credit")}
             >
@@ -125,7 +131,8 @@ export default function ContaPage() {
             <Button
               color="warning"
               variant="flat"
-              className="min-h-12"
+              size="md"
+              className="h-10 min-h-10 w-full text-small font-semibold"
               isLoading={busy === "out"}
               onPress={() => void submit("account_debit")}
             >

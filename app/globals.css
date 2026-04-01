@@ -28,19 +28,17 @@
   }
 }
 
-/*
- * Fora de @layer: vence utilitários Tailwind/HeroUI (ex.: bg-content1 nos Cards).
- * Vidro mais transparente + blur forte — variáveis em openledger-tokens.css
- */
-.glass-card {
+/* Card sólido (paleta --ol-card-*); fora de @layer para vencer bg-content1 do HeroUI */
+.ol-card {
   border-style: solid !important;
   border-width: 1px !important;
-  background-color: var(--ol-glass-card-bg) !important;
-  border-color: var(--ol-glass-card-border) !important;
-  box-shadow: var(--ol-glass-card-shadow) !important;
-  -webkit-backdrop-filter: blur(var(--ol-glass-blur)) saturate(var(--ol-glass-saturate)) !important;
-  backdrop-filter: blur(var(--ol-glass-blur)) saturate(var(--ol-glass-saturate)) !important;
-  transform: translateZ(0);
+  background-color: var(--ol-card-bg) !important;
+  border-color: var(--ol-card-border) !important;
+  box-shadow: var(--ol-card-shadow) !important;
+}
+
+.ol-modal-sheet {
+  box-shadow: var(--ol-modal-sheet-shadow) !important;
 }
 
 .glass-header {

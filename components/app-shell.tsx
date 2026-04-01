@@ -37,7 +37,7 @@ function NavLink({
       href={href}
       variant={active ? "flat" : "light"}
       color={active ? "primary" : "default"}
-      className="min-h-11 min-w-13 flex-col gap-0.5 px-1.5 py-1.5 h-auto font-normal"
+      className="min-h-10 min-w-12 flex-col gap-0.5 px-1.5 py-1 h-auto font-normal"
       radius="lg"
     >
       <Icon className="h-5 w-5 shrink-0" strokeWidth={active ? 2.25 : 2} aria-hidden />
@@ -51,7 +51,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="page-app-gradient flex justify-center">
-      <div className="flex min-h-dvh w-full max-w-[430px] flex-col bg-transparent">
+      <div className="flex min-h-dvh w-full max-w-md flex-col bg-transparent">
         <header className="glass-header sticky top-0 z-40 flex items-center justify-between gap-2 px-3 py-2">
           <ShellUserMenu />
           <div className="flex shrink-0 items-center gap-1">
@@ -63,7 +63,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
         <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2">
           <nav
-            className="glass-dock pointer-events-auto flex max-w-full items-stretch justify-center gap-2 rounded-4xl px-4 py-1.5"
+            className="glass-dock pointer-events-auto flex max-w-full items-stretch justify-center gap-2 rounded-large px-4 py-1.5"
             aria-label="Navegação principal"
           >
             {nav.map((item) => (
