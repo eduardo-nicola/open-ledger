@@ -20,7 +20,6 @@ import { useState } from "react";
 import { useAuth } from "@/components/auth-provider";
 import { useCards } from "@/components/finance-data-provider";
 import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
-import { compactInput } from "@/lib/heroui-density";
 import { createCreditCard, deleteCreditCard } from "@/services/finance/finance-service";
 
 export default function CartoesPage() {
@@ -162,25 +161,31 @@ export default function CartoesPage() {
         /* `full` força !rounded-none no tema — quebra o sheet */
         size="5xl"
         classNames={{
-          wrapper: "items-end justify-center px-0",
+          /* Tema padrão usa items-end sm:items-center — isso sobe o sheet no desktop */
+          wrapper: "!items-end justify-center px-0 sm:!items-end",
           base:
             "ol-card ol-modal-sheet !mx-0 !mb-0 !mt-0 !max-h-[min(88dvh,100%)] !min-h-0 !h-auto w-full !max-w-[min(100%,430px)] !rounded-b-none !rounded-t-[1.75rem] border-x-0 border-b-0 !p-0 overflow-hidden ring-1 ring-black/[0.07] dark:ring-white/10 sm:!mx-0 sm:!my-0",
           header: "flex flex-col gap-0 border-b-0 p-0",
-          body: "gap-3 px-4 pb-2 pt-0",
+          body: "gap-5 px-5 pb-4 pt-6",
           footer:
-            "flex flex-row gap-2 border-t border-divider/50 px-4 py-3 justify-stretch pb-[max(0.75rem,env(safe-area-inset-bottom))]",
+            "flex flex-row gap-2 border-t border-divider/50 px-5 py-4 justify-stretch pb-[max(1rem,env(safe-area-inset-bottom))]",
         }}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-0 p-0 font-semibold">
+              <ModalHeader className="flex flex-col p-0">
                 <div className="flex justify-center pt-3 pb-2" aria-hidden>
                   <span className="h-1.5 w-11 rounded-full bg-default-400/80 dark:bg-default-500" />
                 </div>
-                <span className="border-b border-divider/50 px-4 pb-3 text-base text-foreground">
+                <h2 className="px-5 pb-3 text-base font-semibold leading-snug text-foreground">
                   Novo cartão
-                </span>
+                </h2>
+                <div
+                  className="mx-5 shrink-0 border-b border-divider/60"
+                  role="separator"
+                  aria-hidden
+                />
               </ModalHeader>
               <ModalBody>
                 {error ? (
@@ -191,20 +196,34 @@ export default function CartoesPage() {
                 <Input
                   label="Nome"
                   placeholder="Ex.: Nubank"
-                  size="sm"
+                  labelPlacement="outside"
+                  size="md"
+                  variant="bordered"
                   value={name}
                   onValueChange={setName}
                   autoFocus
-                  classNames={compactInput}
+                  classNames={{
+                    base: "gap-2",
+                    label: "text-small font-medium text-foreground-600",
+                    mainWrapper: "gap-2",
+                    inputWrapper: "min-h-10",
+                  }}
                 />
                 <Input
                   label="Limite (R$)"
                   placeholder="0,00"
-                  size="sm"
+                  labelPlacement="outside"
+                  size="md"
+                  variant="bordered"
                   inputMode="decimal"
                   value={limitStr}
                   onValueChange={setLimitStr}
-                  classNames={compactInput}
+                  classNames={{
+                    base: "gap-2",
+                    label: "text-small font-medium text-foreground-600",
+                    mainWrapper: "gap-2",
+                    inputWrapper: "min-h-10",
+                  }}
                 />
               </ModalBody>
               <ModalFooter>
