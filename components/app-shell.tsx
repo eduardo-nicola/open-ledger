@@ -52,7 +52,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="page-app-gradient flex justify-center">
       <div className="flex min-h-dvh w-full max-w-[430px] flex-col bg-transparent">
-        <header className="glass-header sticky top-0 z-40 flex items-center justify-between gap-2 px-3 py-2 supports-backdrop-filter:bg-white/30 supports-backdrop-filter:dark:bg-black/25">
+        <header className="glass-header sticky top-0 z-40 flex items-center justify-between gap-2 px-3 py-2">
           <ShellUserMenu />
           <div className="flex shrink-0 items-center gap-1">
             <ThemeToggle />

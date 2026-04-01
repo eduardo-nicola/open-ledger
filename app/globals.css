@@ -1,23 +1,67 @@
+@import "./theme/openledger-tokens.css";
 @import "tailwindcss";
 @plugin "../hero.ts";
 @source "../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:is(.dark *));
 
-/* Gradiente de página bem sutil + superfícies em vidro (cards / painéis) */
+/* Gradiente global: !important evita o tema HeroUI sobrescrever no modo claro */
+/*
+ * Sem background-attachment:fixed no html: no Chrome isso quebra (ou some) o backdrop-filter
+ * do header/dock — o blur precisa compor com o que está “atrás” no mesmo contexto.
+ */
+@layer base {
+  html {
+    min-height: 100dvh;
+    background: var(--ol-page-gradient) !important;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: transparent !important;
+  }
+}
+
 @layer components {
   .page-app-gradient {
-    @apply min-h-dvh bg-linear-to-b from-neutral-200/45 via-neutral-100/15 to-white dark:from-zinc-800/35 dark:via-zinc-950/70 dark:to-black;
+    min-height: 100dvh;
+    background: transparent;
   }
+}
 
-  .glass-card {
-    @apply border border-white/45 bg-white/40 shadow-lg shadow-black/[0.03] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.08] dark:bg-zinc-950/40 dark:shadow-black/25;
-  }
+/*
+ * Fora de @layer: vence utilitários Tailwind/HeroUI (ex.: bg-content1 nos Cards).
+ * Vidro mais transparente + blur forte — variáveis em openledger-tokens.css
+ */
+.glass-card {
+  border-style: solid !important;
+  border-width: 1px !important;
+  background-color: var(--ol-glass-card-bg) !important;
+  border-color: var(--ol-glass-card-border) !important;
+  box-shadow: var(--ol-glass-card-shadow) !important;
+  -webkit-backdrop-filter: blur(var(--ol-glass-blur)) saturate(var(--ol-glass-saturate)) !important;
+  backdrop-filter: blur(var(--ol-glass-blur)) saturate(var(--ol-glass-saturate)) !important;
+  transform: translateZ(0);
+}
 
-  .glass-header {
-    @apply border-b border-white/35 bg-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.06] dark:bg-black/35;
-  }
+.glass-header {
+  background-color: var(--ol-glass-chrome-bg) !important;
+  border-bottom: 1px solid var(--ol-glass-chrome-border) !important;
+  box-shadow: var(--ol-glass-shadow) !important;
+  /* WebKit primeiro — melhor suporte a blur em Safari */
+  -webkit-backdrop-filter: blur(var(--ol-glass-blur-chrome)) saturate(var(--ol-glass-saturate)) !important;
+  backdrop-filter: blur(var(--ol-glass-blur-chrome)) saturate(var(--ol-glass-saturate)) !important;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
 
-  .glass-dock {
-    @apply border-b border-white/35 bg-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.06] dark:bg-black/35;
-  }
+.glass-dock {
+  position: relative;
+  z-index: 1;
+  background-color: var(--ol-glass-dock-bg) !important;
+  border: 1px solid var(--ol-glass-dock-border) !important;
+  box-shadow: var(--ol-glass-dock-shadow) !important;
+  -webkit-backdrop-filter: blur(var(--ol-glass-dock-blur)) saturate(var(--ol-glass-saturate)) !important;
+  backdrop-filter: blur(var(--ol-glass-dock-blur)) saturate(var(--ol-glass-saturate)) !important;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }

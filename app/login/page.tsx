@@ -52,7 +52,7 @@ export default function LoginPage() {
   return (
     <div className="page-app-gradient flex justify-center">
       <div className="flex min-h-dvh w-full max-w-[430px] flex-col bg-transparent">
-        <header className="glass-header flex justify-end px-3 py-2 supports-[backdrop-filter]:bg-white/30 supports-[backdrop-filter]:dark:bg-black/25">
+        <header className="glass-header flex justify-end px-3 py-2">
           <ThemeToggle />
         </header>
         <div className="flex flex-1 flex-col items-center justify-center px-6 pb-12">
