@@ -1,0 +1,26 @@
+rules_version = '2';
+
+// Paths must match the app: users/{uid}/cards|wallet|transactions/...
+// Publish in Firebase Console (Firestore > Rules) or: firebase deploy --only firestore:rules
+// Anything not matched below is denied by default.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId}/cards/{cardId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /users/{userId}/wallet/{walletDocId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /users/{userId}/transactions/{transactionId} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}
