@@ -10,9 +10,8 @@ import {
 } from "react";
 
 import {
-  getRedirectResult,
   onAuthStateChanged,
-  signInWithRedirect,
+  signInWithPopup,
   signOut,
   type User,
 } from "firebase/auth";
@@ -30,6 +29,7 @@ type AuthState = {
 const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const auth = getFirebaseAuth();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -38,9 +38,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
       return;
     }
-    const auth = getFirebaseAuth();
-    // Consome o retorno do OAuth (obrigatório com signInWithRedirect).
-    void getRedirectResult(auth)
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
@@ -49,12 +46,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInWithGoogle = useCallback(async () => {
-    const auth = getFirebaseAuth();
-    await signInWithRedirect(auth, googleProvider);
+    await signInWithPopup(auth, googleProvider);
   }, []);
 
   const logout = useCallback(async () => {
-    const auth = getFirebaseAuth();
     await signOut(auth);
   }, []);
 
