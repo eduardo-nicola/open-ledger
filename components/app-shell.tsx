@@ -37,7 +37,7 @@ function NavLink({
       href={href}
       variant={active ? "flat" : "light"}
       color={active ? "primary" : "default"}
-      className="min-h-12 min-w-[4.5rem] flex-col gap-1 px-2 py-2 h-auto font-normal"
+      className="min-h-12 min-w-18 flex-col gap-1 px-2 py-2 h-auto font-normal"
       radius="lg"
     >
       <Icon className="h-5 w-5 shrink-0" strokeWidth={active ? 2.25 : 2} aria-hidden />
@@ -50,9 +50,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-dvh flex justify-center bg-gradient-to-b from-default-100 via-default-200 to-default-100 dark:from-default-50 dark:via-default-100 dark:to-default-50">
+    <div className="min-h-dvh flex justify-center bg-linear-to-b from-default-100 via-default-200 to-default-100 dark:from-default-50 dark:via-default-100 dark:to-default-50">
       <div className="w-full max-w-[430px] min-h-dvh flex flex-col bg-background shadow-2xl ring-1 ring-black/5 dark:ring-white/10">
-        <header className="sticky top-0 z-40 flex items-center justify-between gap-2 px-3 py-2 border-b border-divider/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/70">
+        <header className="sticky top-0 z-40 flex items-center justify-between gap-2 px-3 py-2 border-b border-divider/60 bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/70">
           <ShellUserMenu />
           <div className="flex shrink-0 items-center gap-1">
             <ThemeToggle />

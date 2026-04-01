@@ -26,7 +26,6 @@ export default function LoginPage() {
     setBusy(true);
     try {
       await signInWithGoogle();
-      router.replace("/");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Falha no login.");
     } finally {
