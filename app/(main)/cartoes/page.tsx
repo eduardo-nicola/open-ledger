@@ -94,7 +94,7 @@ export default function CartoesPage() {
                 : 0;
             return (
               <li key={c.id}>
-                <Card shadow="md" radius="lg" className="w-full border border-divider/60">
+                <Card shadow="none" radius="lg" className="glass-card w-full">
                   <CardHeader className="flex flex-col items-stretch gap-2 pb-0">
                     <div className="flex justify-between gap-2 items-start">
                       <Link

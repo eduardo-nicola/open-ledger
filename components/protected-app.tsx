@@ -22,7 +22,7 @@ export function ProtectedApp({ children }: { children: React.ReactNode }) {
 
   if (!isFirebaseConfigured()) {
     return (
-      <div className="min-h-dvh flex items-center justify-center p-6 text-center text-default-600 bg-linear-to-b from-default-100 to-default-200 dark:from-default-50 dark:to-default-100">
+      <div className="page-app-gradient flex items-center justify-center p-6 text-center text-default-600">
         <p>
           Configure o Firebase em <code className="text-primary">.env.local</code> (veja{" "}
           <code className="text-primary">.env.example</code>).
@@ -33,7 +33,7 @@ export function ProtectedApp({ children }: { children: React.ReactNode }) {
 
   if (loading || !user) {
     return (
-      <div className="min-h-dvh flex items-center justify-center bg-linear-to-b from-default-100 to-default-200 dark:from-default-50 dark:to-default-100">
+      <div className="page-app-gradient flex items-center justify-center">
         <Spinner size="lg" color="primary" label="Carregando..." />
       </div>
     );

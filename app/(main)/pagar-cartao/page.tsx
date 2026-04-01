@@ -104,7 +104,7 @@ function PagarCartaoContent() {
         </p>
       </div>
 
-      <Card shadow="md" radius="lg" className="border border-divider/60">
+      <Card shadow="none" radius="lg" className="glass-card">
         <CardHeader>
           <span className="font-semibold text-foreground">Dados do pagamento</span>
         </CardHeader>

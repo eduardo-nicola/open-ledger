@@ -46,7 +46,7 @@ export default function HomePage() {
         <p className="text-small text-default-500">Visão geral das suas finanças</p>
       </header>
 
-      <Card shadow="md" radius="lg" className="border border-divider/60">
+      <Card shadow="none" radius="lg" className="glass-card">
         <CardHeader className="flex flex-col items-start gap-1 pb-0">
           <span className="text-small text-default-500 font-medium">Saldo em conta</span>
           <span className="text-2xl font-semibold tabular-nums">
@@ -65,7 +65,7 @@ export default function HomePage() {
         </CardBody>
       </Card>
 
-      <Card shadow="md" radius="lg" className="border border-divider/60">
+      <Card shadow="none" radius="lg" className="glass-card">
         <CardHeader className="flex flex-col items-start gap-1 pb-0">
           <span className="text-small text-default-500 font-medium">Cartões (total utilizado)</span>
           <span className="text-xl font-semibold tabular-nums">
@@ -97,7 +97,7 @@ export default function HomePage() {
         </CardBody>
       </Card>
 
-      <section className="rounded-large border border-divider/50 bg-content1/30 p-4 dark:bg-content1/20">
+      <section className="glass-card rounded-large p-4">
         <h2 className="text-base font-semibold mb-3 text-foreground">Últimos lançamentos</h2>
         {recent.length === 0 ? (
           <p className="text-default-500 text-small">Nenhum lançamento ainda.</p>

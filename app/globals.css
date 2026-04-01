@@ -2,3 +2,22 @@
 @plugin "../hero.ts";
 @source "../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:is(.dark *));
+
+/* Gradiente de página bem sutil + superfícies em vidro (cards / painéis) */
+@layer components {
+  .page-app-gradient {
+    @apply min-h-dvh bg-linear-to-b from-neutral-200/45 via-neutral-100/15 to-white dark:from-zinc-800/35 dark:via-zinc-950/70 dark:to-black;
+  }
+
+  .glass-card {
+    @apply border border-white/45 bg-white/40 shadow-lg shadow-black/[0.03] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.08] dark:bg-zinc-950/40 dark:shadow-black/25;
+  }
+
+  .glass-header {
+    @apply border-b border-white/35 bg-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.06] dark:bg-black/35;
+  }
+
+  .glass-dock {
+    @apply border-b border-white/35 bg-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.06] dark:bg-black/35;
+  }
+}

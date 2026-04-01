@@ -35,8 +35,8 @@ export default function LoginPage() {
 
   if (!isFirebaseConfigured()) {
     return (
-      <div className="min-h-dvh flex items-center justify-center p-6 bg-gradient-to-b from-default-100 to-default-200 dark:from-default-50 dark:to-default-100">
-        <Card className="w-full max-w-md border border-divider shadow-lg" radius="lg">
+      <div className="page-app-gradient flex items-center justify-center p-6">
+        <Card className="glass-card w-full max-w-md" shadow="none" radius="lg">
           <CardHeader className="text-lg font-semibold">Configuração necessária</CardHeader>
           <CardBody className="text-default-600 text-small leading-relaxed">
             Defina as variáveis <code className="text-primary">NEXT_PUBLIC_FIREBASE_*</code> em{" "}
@@ -50,16 +50,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-dvh flex justify-center bg-gradient-to-b from-default-100 via-default-200 to-default-100 dark:from-default-50 dark:via-default-100 dark:to-default-50">
-      <div className="w-full max-w-[430px] min-h-dvh flex flex-col bg-background shadow-2xl ring-1 ring-black/5 dark:ring-white/10">
-        <header className="flex justify-end px-3 py-2 border-b border-divider/60">
+    <div className="page-app-gradient flex justify-center">
+      <div className="flex min-h-dvh w-full max-w-[430px] flex-col bg-transparent">
+        <header className="glass-header flex justify-end px-3 py-2 supports-[backdrop-filter]:bg-white/30 supports-[backdrop-filter]:dark:bg-black/25">
           <ThemeToggle />
         </header>
-        <div className="flex-1 flex flex-col items-center justify-center px-6 pb-12">
-          <Card
-            className="w-full max-w-sm border border-divider/80 shadow-lg"
-            radius="lg"
-          >
+        <div className="flex flex-1 flex-col items-center justify-center px-6 pb-12">
+          <Card className="glass-card w-full max-w-sm" shadow="none" radius="lg">
             <CardHeader className="flex flex-col gap-2 items-start pb-1">
               <p className="text-xs font-semibold uppercase tracking-wider text-primary">
                 OpenLedger

@@ -75,7 +75,7 @@ export default function ContaPage() {
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">Conta</h1>
       </header>
 
-      <Card shadow="md" radius="lg" className="border border-divider/60">
+      <Card shadow="none" radius="lg" className="glass-card">
         <CardHeader className="flex flex-col items-start gap-1 pb-0">
           <span className="text-small text-default-500 font-medium">Saldo em conta</span>
           {wallet ? (
@@ -91,7 +91,7 @@ export default function ContaPage() {
         </CardBody>
       </Card>
 
-      <Card shadow="md" radius="lg" className="border border-divider/60">
+      <Card shadow="none" radius="lg" className="glass-card">
         <CardHeader>
           <span className="font-semibold text-foreground">Lançar na conta</span>
         </CardHeader>

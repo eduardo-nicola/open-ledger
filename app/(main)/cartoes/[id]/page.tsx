@@ -79,7 +79,7 @@ export default function CartaoDetalhePage() {
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">{card.name}</h1>
       </div>
 
-      <Card shadow="md" radius="lg" className="border border-divider/60">
+      <Card shadow="none" radius="lg" className="glass-card">
         <CardHeader className="flex flex-col items-start gap-2">
           <span className="text-small text-default-500">Fatura atual</span>
           <span className="text-2xl font-semibold tabular-nums">
