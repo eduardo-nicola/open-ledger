@@ -10,7 +10,7 @@ import {
 } from "@/components/finance-data-provider";
 import { compactInput } from "@/lib/heroui-density";
 import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
-import { addAccountMovement } from "@/services/finance/finance-service";
+import { addAccountMovement } from "@/services/finance";
 import type { Transaction } from "@/lib/types";
 
 function txLabel(t: Transaction): string {

@@ -18,7 +18,7 @@ import { useAuth } from "@/components/auth-provider";
 import { useCards, useWallet } from "@/components/finance-data-provider";
 import { compactInput, compactSelect } from "@/lib/heroui-density";
 import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
-import { payCardFromAccount } from "@/services/finance/finance-service";
+import { payCardFromAccount } from "@/services/finance";
 
 export default function PagarCartaoPage() {
   return (

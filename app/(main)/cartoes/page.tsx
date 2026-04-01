@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useAuth } from "@/components/auth-provider";
 import { useCards } from "@/components/finance-data-provider";
 import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
-import { createCreditCard, deleteCreditCard } from "@/services/finance/finance-service";
+import { createCreditCard, deleteCreditCard } from "@/services/finance";
 
 export default function CartoesPage() {
   const { user } = useAuth();

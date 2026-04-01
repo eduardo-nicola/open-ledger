@@ -14,7 +14,7 @@ import {
   subscribeCards,
   subscribeRecentTransactions,
   subscribeWallet,
-} from "@/services/finance/finance-repository";
+} from "@/services/finance";
 import type { CreditCard, Transaction, WalletDoc } from "@/lib/types";
 
 /** Single Firestore listener limit for recent transactions (shared across routes). */

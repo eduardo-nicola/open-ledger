@@ -20,7 +20,7 @@ import { formatBRLFromCents, parseBRLToCents } from "@/lib/money";
 import {
   addAccountMovement,
   addExpenseOnCard,
-} from "@/services/finance/finance-service";
+} from "@/services/finance";
 
 type LancamentoTipo = "expense_card" | "account_credit" | "account_debit";
 
