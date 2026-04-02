@@ -10,7 +10,6 @@ Este documento descreve o **esquema relacional** do Open Ledger. Convenções: t
 - **Multi-tenant**: isolamento por `user_id` referenciando `auth.users(id)`.
 - **Autenticação (MVP)**: entrada com **Google** via Supabase Auth; novos usuários passam a existir em `auth.users` com `identities` associadas ao provedor `google`. Recomenda-se **trigger** (ou Edge Function) no primeiro login para criar a linha em `profiles` com o mesmo `id` de `auth.users`, preenchendo `display_name` a partir de `raw_user_meta_data` quando disponível.
 - **Segurança**: **RLS** em todas as tabelas de domínio listadas abaixo.
-- **Arquivos**: metadados nas tabelas; binários no **Supabase Storage** (bucket privado).
 
 ```mermaid
 erDiagram
@@ -24,7 +23,6 @@ erDiagram
   categories ||--o{ categories : parent_id
   categories ||--o{ transactions : category_id
   transactions }o--o{ tags : transaction_tags
-  transactions ||--o{ attachments : transaction_id
   bank_connections ||--o{ import_batches : bank_connection_id
   import_batches ||--o{ external_transactions : batch_id
 ```
@@ -208,22 +206,7 @@ Alternativa: apenas colunas em `transactions` (`installment_*`, `parent_transact
 
 ---
 
-### 3.10 `attachments`
-
-| Coluna           | Tipo     | Restrições / notas |
-| ---------------- | -------- | ------------------ |
-| `id`             | `uuid`   | PK |
-| `user_id`        | `uuid`   | FK → `auth.users(id)`, `ON DELETE CASCADE` |
-| `transaction_id` | `uuid` | FK → `transactions(id)`, `ON DELETE CASCADE` |
-| `storage_path`   | `text`   | `NOT NULL`, caminho no bucket |
-| `file_name`      | `text`   | `NOT NULL` |
-| `mime_type`      | `text`   | `NOT NULL` |
-| `size_bytes`     | `bigint` | `NOT NULL`, `>= 0` |
-| `created_at`     | `timestamptz` | `NOT NULL DEFAULT now()` |
-
----
-
-### 3.11 Premium — `bank_connections`
+### 3.10 Premium — `bank_connections`
 
 | Coluna                  | Tipo                | Notas |
 | ----------------------- | ------------------- | ----- |
@@ -241,7 +224,7 @@ Segredos (tokens) **não** devem ficar em `metadata` acessível pelo cliente; us
 
 ---
 
-### 3.12 Premium — `import_batches`
+### 3.11 Premium — `import_batches`
 
 | Coluna               | Tipo                  | Notas |
 | -------------------- | --------------------- | ----- |
@@ -255,7 +238,7 @@ Segredos (tokens) **não** devem ficar em `metadata` acessível pelo cliente; us
 
 ---
 
-### 3.13 Premium — `external_transactions`
+### 3.12 Premium — `external_transactions`
 
 Staging de movimentos importados.
 
@@ -282,7 +265,6 @@ Staging de movimentos importados.
 | `transactions`  | `(parent_transaction_id)` | parcelas |
 | `categories`    | `(user_id, parent_id)` | árvore |
 | `accounts`      | `(user_id)` onde `archived_at IS NULL` | partial index opcional |
-| `attachments`   | `(transaction_id)` | anexos por lançamento |
 | `external_transactions` | `(import_batch_id, status)` | processamento de lote |
 
 ---
@@ -302,22 +284,12 @@ Tabelas com FK apenas via entidade pai (ex.: `external_transactions` via `import
 
 ---
 
-## 6. Storage
-
-- **Bucket** (ex.: `receipts`): **privado**.
-- **Path**: `{user_id}/{transaction_id}/{uuid}_{file_name}`.
-- Políticas: upload/read/delete apenas se `auth.uid()` corresponder ao prefixo `user_id` do path (implementação exata depende da função `storage.foldername` ou equivalente).
-
-Limites de tamanho e MIME (`image/jpeg`, `image/png`, `application/pdf`, etc.) conforme [non-functional-requirements.md](./non-functional-requirements.md).
-
----
-
-## 7. Mapeamento SQL ↔ TypeScript
+## 6. Mapeamento SQL ↔ TypeScript
 
 Colunas `snake_case` no Postgres; propriedades `camelCase` no cliente, alinhadas a [`types/finance.entities.ts`](../types/finance.entities.ts). Campos `numeric(12,2)` podem ser representados como `string` no TypeScript para evitar erro de ponto flutuante, ou `number` se a stack fixar arredondamento na borda — **recomenda-se `string`** para valores monetários na camada de domínio.
 
 ---
 
-## 8. Trigger `updated_at` (opcional)
+## 7. Trigger `updated_at` (opcional)
 
 Função genérica `set_updated_at()` em `BEFORE UPDATE` para tabelas com `updated_at`, padrão Supabase.

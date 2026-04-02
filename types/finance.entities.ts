@@ -116,17 +116,6 @@ export interface TransactionInstallment {
   readonly createdAt: string;
 }
 
-export interface Attachment {
-  readonly id: string;
-  readonly userId: string;
-  transactionId: string;
-  storagePath: string;
-  fileName: string;
-  mimeType: string;
-  sizeBytes: number;
-  readonly createdAt: string;
-}
-
 export interface BankConnection {
   readonly id: string;
   readonly userId: string;

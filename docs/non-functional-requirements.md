@@ -8,16 +8,9 @@ Este documento complementa [functional-requirements.md](./functional-requirement
 
 ### RNF-001 — Autenticação
 
-- Autenticação via **Supabase Auth** (sessão JWT ou fluxo suportado pelo stack).
-- No **MVP**, o produto **deve** expor **login com Google** como provedor social (OAuth 2.0), em conformidade com **RF-048** em [functional-requirements.md](./functional-requirements.md).
+- Identidade e sessão via **Supabase Auth** (JWT / fluxo suportado pelo stack).
+- **No MVP, o login do usuário é exclusivamente com Google** (OAuth 2.0): não há outro método de autenticação previsto na versão inicial (sem e-mail/senha nativo do Supabase nem outros provedores sociais), salvo mudança explícita de escopo. Requisito funcional correspondente: **RF-048** em [functional-requirements.md](./functional-requirements.md).
 - Sessão expira conforme política do projeto; renovação transparente quando aplicável.
-
-### RNF-006 — OAuth Google (configuração e plataformas)
-
-- **Painel Supabase**: provedor **Google** habilitado; **Client ID** e **Client Secret** do projeto Google Cloud (OAuth consent screen e credenciais do tipo “Web application” / cliente adequado ao app).
-- **Redirect URLs**: cadastrar no Supabase e no Google Cloud todas as URLs de callback exigidas pelo **web** (ex.: `https://<ref>.supabase.co/auth/v1/callback` e a rota da SPA, conforme documentação atual do Supabase) e pelo **mobile** (scheme customizado ou universal links, alinhado ao stack Expo/React Native quando existir).
-- **Cliente**: usar a API recomendada pelo Supabase (`signInWithOAuth` no web com PKCE quando aplicável; fluxo equivalente no mobile) — ver [.cursor/rules/supabase-specific-rules.mdc](../.cursor/rules/supabase-specific-rules.mdc).
-- **Dados de perfil**: nome/foto podem vir dos metadados do Google; persistência em `profiles` segue [data-model.md](./data-model.md).
 
 ### RNF-002 — Autorização e RLS
 
@@ -25,10 +18,13 @@ Este documento complementa [functional-requirements.md](./functional-requirement
 - Políticas garantem que cada linha só seja visível/modificável pelo `user_id` dono (ou por `workspace_id` futuro, se introduzido de forma consistente).
 - Operações administrativas que ignorem RLS restringem-se a **service role** apenas no backend, nunca expostas no cliente.
 
-### RNF-003 — Storage de arquivos
+### RNF-003 — OAuth Google (configuração e plataformas)
 
-- Bucket(s) do **Supabase Storage** com políticas por pasta ou prefixo por `user_id`.
-- URLs públicas desabilitadas por padrão para comprovantes; acesso via URL assinada ou proxy autenticado.
+- **Escopo**: estes itens implementam o **único** fluxo de login do MVP descrito no **RNF-001** (e **RF-048**); não são opcionais nem “preferência” frente a outro provedor na mesma release.
+- **Painel Supabase**: provedor **Google** habilitado; **Client ID** e **Client Secret** do projeto Google Cloud (OAuth consent screen e credenciais do tipo “Web application” / cliente adequado ao app).
+- **Redirect URLs**: cadastrar no Supabase e no Google Cloud todas as URLs de callback exigidas pelo **web** (ex.: `https://<ref>.supabase.co/auth/v1/callback` e a rota da SPA, conforme documentação atual do Supabase) e pelo **mobile** (scheme customizado ou universal links, alinhado ao stack Expo/React Native quando existir).
+- **Cliente**: usar a API recomendada pelo Supabase (`signInWithOAuth` no web com PKCE quando aplicável; fluxo equivalente no mobile) — ver [.cursor/rules/supabase-specific-rules.mdc](../.cursor/rules/supabase-specific-rules.mdc).
+- **Dados de perfil**: nome/foto podem vir dos metadados do Google; persistência em `profiles` segue [data-model.md](./data-model.md).
 
 ### RNF-004 — Dados sensíveis (Premium / Open Finance)
 
@@ -55,7 +51,7 @@ Este documento complementa [functional-requirements.md](./functional-requirement
 
 ### RNF-012 — Retenção
 
-- Política de retenção de **anexos** e logs de sincronização documentada; exclusão em cascata ou anonimização ao remover conta.
+- Política de retenção de dados e **logs de sincronização** (Premium) documentada; exclusão em cascata ou anonimização ao remover conta.
 
 ### RNF-013 — Base legal e transparência
 
@@ -165,7 +161,7 @@ A implementação da interface deve seguir [.cursor/rules/accessibility-guidelin
 
 | ID     | Tema                    |
 | ------ | ----------------------- |
-| RNF-001–006 | Segurança          |
+| RNF-001–005 | Segurança          |
 | RNF-010–013 | Privacidade / LGPD |
 | RNF-020–022 | Performance        |
 | RNF-030–031 | Disponibilidade    |

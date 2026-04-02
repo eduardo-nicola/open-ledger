@@ -4,11 +4,11 @@
 
 ### 1.1 Objetivo
 
-Aplicação web para gestão de finanças pessoais com multicontas, cartão de crédito, categorização, anexos, relatórios e (futuro) conciliação bancária para assinantes Premium.
+Aplicação web para gestão de finanças pessoais com multicontas, cartão de crédito, categorização, relatórios e (futuro) conciliação bancária para assinantes Premium.
 
 ### 1.2 Atores
 
-- **Usuário autenticado**: pessoa com conta no sistema (Supabase Auth), dona exclusiva dos seus dados no MVP (um espaço por `auth.users`). No **MVP**, o produto deve permitir **entrar com Google** (OAuth) como forma mínima de autenticação suportada; detalhes técnicos em [non-functional-requirements.md](./non-functional-requirements.md) (RNF-001, RNF-006).
+- **Usuário autenticado**: pessoa com conta no sistema (Supabase Auth), dona exclusiva dos seus dados no MVP (um espaço por `auth.users`). No **MVP**, o acesso é **somente** via **Conta Google** (OAuth); ver **RF-048** e [non-functional-requirements.md](./non-functional-requirements.md) (RNF-001, RNF-003).
 
 ### 1.3 Moeda e valores
 
@@ -18,6 +18,7 @@ Aplicação web para gestão de finanças pessoais com multicontas, cartão de c
 ### 1.4 Fora do escopo do MVP (documentado para roadmap)
 
 - Conciliação automática com instituições financeiras: requisitos em RF Premium; implementação depende de integração regulatória/provedor.
+- **Anexos de comprovantes** (foto/PDF vinculados a transações, Storage): fora do escopo do produto documentado; não há tabela `attachments` nem bucket de comprovantes no [data-model.md](./data-model.md).
 
 ---
 
@@ -157,14 +158,6 @@ Cada requisito possui identificador estável (`RF-xxx`) para rastreio em backlog
 - **Descrição**: CRUD de tags; associar **N:N** tags a transações; filtrar lista e relatórios por uma ou mais tags.
 - **Ator**: Usuário autenticado.
 
-### RF-032 — Anexos de comprovantes
-
-- **Descrição**: Anexar foto ou PDF a uma transação; armazenar arquivo no Storage com metadados na tabela de anexos; visualizar e excluir anexo com permissão do dono.
-- **Ator**: Usuário autenticado.
-- **Pré-condições**: Tipos MIME e tamanho máximo conforme RNF.
-- **Fluxo principal**: Upload → vínculo com `transaction_id` → URL assinada ou rota segura para download.
-- **Alternativos / erro**: Falha de upload → rollback de metadados; mensagem ao usuário.
-
 ---
 
 ## 7. Relatórios e análises
@@ -194,9 +187,9 @@ Cada requisito possui identificador estável (`RF-xxx`) para rastreio em backlog
 
 ## 8. Autenticação mínima (suporte aos RFs)
 
-### RF-048 — Entrar com Google (requisito mínimo do MVP)
+### RF-048 — Login com Google (único método no MVP)
 
-- **Descrição**: O usuário pode **criar sessão e acessar o app** usando **Conta Google** (OAuth 2.0), integrado ao **Supabase Auth** com provedor `google`. Fluxo típico: botão “Entrar com Google” → redirecionamento ao Google → retorno à aplicação com sessão válida; em mobile, usar o fluxo OAuth suportado pelo SDK (incluindo URI de redirecionamento adequada à plataforma).
+- **Descrição**: No MVP, **única** forma de **criar sessão e acessar o app** é **Conta Google** (OAuth 2.0) via **Supabase Auth** (`provider: google`). Fluxo típico: botão “Entrar com Google” → redirecionamento ao Google → retorno à aplicação com sessão válida; em mobile, fluxo OAuth suportado pelo SDK (URI de redirecionamento adequada à plataforma).
 - **Ator**: Visitante ou usuário não autenticado.
 - **Pré-condições**: Provedor Google habilitado e credenciais configuradas no projeto Supabase; URLs de redirecionamento autorizadas (web e, se aplicável, app nativo).
 - **Fluxo principal**: Inicia OAuth; após consentimento bem-sucedido, Supabase emite sessão; aplicação carrega estado autenticado e, se existir política de perfil, garante linha em `profiles` alinhada a `auth.users` (ver [data-model.md](./data-model.md)).
@@ -228,9 +221,8 @@ Cada requisito possui identificador estável (`RF-xxx`) para rastreio em backlog
 | RF-022 | Status de sincronização                |
 | RF-030 | Categorias hierárquicas                |
 | RF-031 | Tags                                   |
-| RF-032 | Anexos                                 |
 | RF-040 | Gráficos                               |
 | RF-041 | Balanço mensal                         |
 | RF-042 | Filtros avançados                      |
-| RF-048 | Entrar com Google (MVP)                |
+| RF-048 | Login com Google (único no MVP)        |
 | RF-050 | Isolamento por usuário                 |
