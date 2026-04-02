@@ -8,6 +8,7 @@ Este documento descreve o **esquema relacional** do Open Ledger. Convenções: t
 
 - **SGBD**: PostgreSQL gerenciado pelo Supabase.
 - **Multi-tenant**: isolamento por `user_id` referenciando `auth.users(id)`.
+- **Autenticação (MVP)**: entrada com **Google** via Supabase Auth; novos usuários passam a existir em `auth.users` com `identities` associadas ao provedor `google`. Recomenda-se **trigger** (ou Edge Function) no primeiro login para criar a linha em `profiles` com o mesmo `id` de `auth.users`, preenchendo `display_name` a partir de `raw_user_meta_data` quando disponível.
 - **Segurança**: **RLS** em todas as tabelas de domínio listadas abaixo.
 - **Arquivos**: metadados nas tabelas; binários no **Supabase Storage** (bucket privado).
 

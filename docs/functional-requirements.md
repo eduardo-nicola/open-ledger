@@ -8,7 +8,7 @@ Aplicação web para gestão de finanças pessoais com multicontas, cartão de c
 
 ### 1.2 Atores
 
-- **Usuário autenticado**: pessoa com conta no sistema (Supabase Auth), dona exclusiva dos seus dados no MVP (um espaço por `auth.users`).
+- **Usuário autenticado**: pessoa com conta no sistema (Supabase Auth), dona exclusiva dos seus dados no MVP (um espaço por `auth.users`). No **MVP**, o produto deve permitir **entrar com Google** (OAuth) como forma mínima de autenticação suportada; detalhes técnicos em [non-functional-requirements.md](./non-functional-requirements.md) (RNF-001, RNF-006).
 
 ### 1.3 Moeda e valores
 
@@ -194,6 +194,15 @@ Cada requisito possui identificador estável (`RF-xxx`) para rastreio em backlog
 
 ## 8. Autenticação mínima (suporte aos RFs)
 
+### RF-048 — Entrar com Google (requisito mínimo do MVP)
+
+- **Descrição**: O usuário pode **criar sessão e acessar o app** usando **Conta Google** (OAuth 2.0), integrado ao **Supabase Auth** com provedor `google`. Fluxo típico: botão “Entrar com Google” → redirecionamento ao Google → retorno à aplicação com sessão válida; em mobile, usar o fluxo OAuth suportado pelo SDK (incluindo URI de redirecionamento adequada à plataforma).
+- **Ator**: Visitante ou usuário não autenticado.
+- **Pré-condições**: Provedor Google habilitado e credenciais configuradas no projeto Supabase; URLs de redirecionamento autorizadas (web e, se aplicável, app nativo).
+- **Fluxo principal**: Inicia OAuth; após consentimento bem-sucedido, Supabase emite sessão; aplicação carrega estado autenticado e, se existir política de perfil, garante linha em `profiles` alinhada a `auth.users` (ver [data-model.md](./data-model.md)).
+- **Alternativos / erro**: Consentimento negado ou erro do provedor → mensagem clara e possibilidade de tentar novamente; configuração incorreta (redirect) → tratamento de erro visível em desenvolvimento e logs sem vazar segredos.
+- **Pós-condições**: Usuário autenticado pode executar os demais RFs conforme isolamento em RF-050.
+
 ### RF-050 — Acesso aos dados apenas do próprio usuário
 
 - **Descrição**: Todas as operações de leitura/escrita restringem dados ao `user_id` da sessão (enforçado também por RLS no banco).
@@ -223,4 +232,5 @@ Cada requisito possui identificador estável (`RF-xxx`) para rastreio em backlog
 | RF-040 | Gráficos                               |
 | RF-041 | Balanço mensal                         |
 | RF-042 | Filtros avançados                      |
+| RF-048 | Entrar com Google (MVP)                |
 | RF-050 | Isolamento por usuário                 |

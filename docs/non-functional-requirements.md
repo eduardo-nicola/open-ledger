@@ -9,7 +9,15 @@ Este documento complementa [functional-requirements.md](./functional-requirement
 ### RNF-001 — Autenticação
 
 - Autenticação via **Supabase Auth** (sessão JWT ou fluxo suportado pelo stack).
+- No **MVP**, o produto **deve** expor **login com Google** como provedor social (OAuth 2.0), em conformidade com **RF-048** em [functional-requirements.md](./functional-requirements.md).
 - Sessão expira conforme política do projeto; renovação transparente quando aplicável.
+
+### RNF-006 — OAuth Google (configuração e plataformas)
+
+- **Painel Supabase**: provedor **Google** habilitado; **Client ID** e **Client Secret** do projeto Google Cloud (OAuth consent screen e credenciais do tipo “Web application” / cliente adequado ao app).
+- **Redirect URLs**: cadastrar no Supabase e no Google Cloud todas as URLs de callback exigidas pelo **web** (ex.: `https://<ref>.supabase.co/auth/v1/callback` e a rota da SPA, conforme documentação atual do Supabase) e pelo **mobile** (scheme customizado ou universal links, alinhado ao stack Expo/React Native quando existir).
+- **Cliente**: usar a API recomendada pelo Supabase (`signInWithOAuth` no web com PKCE quando aplicável; fluxo equivalente no mobile) — ver [.cursor/rules/supabase-specific-rules.mdc](../.cursor/rules/supabase-specific-rules.mdc).
+- **Dados de perfil**: nome/foto podem vir dos metadados do Google; persistência em `profiles` segue [data-model.md](./data-model.md).
 
 ### RNF-002 — Autorização e RLS
 
@@ -157,7 +165,7 @@ A implementação da interface deve seguir [.cursor/rules/accessibility-guidelin
 
 | ID     | Tema                    |
 | ------ | ----------------------- |
-| RNF-001–005 | Segurança          |
+| RNF-001–006 | Segurança          |
 | RNF-010–013 | Privacidade / LGPD |
 | RNF-020–022 | Performance        |
 | RNF-030–031 | Disponibilidade    |
