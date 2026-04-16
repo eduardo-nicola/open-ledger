@@ -65,9 +65,9 @@ Declarado — escala de 8 pontos (múltiplos de 4):
 | Role    | Size  | Weight          | Line Height | Usage                                        |
 |---------|-------|-----------------|-------------|----------------------------------------------|
 | Body    | 14px  | 400 (regular)   | 1.5         | Texto geral, labels de formulário, listas    |
-| Label   | 12px  | 500 (medium)    | 1.4         | Labels de nav, badges, metadados             |
+| Label   | 12px  | 400 (regular)   | 1.4         | Labels de nav, badges, metadados             |
 | Heading | 20px  | 600 (semibold)  | 1.2         | Título de página (ex: "Meu perfil")          |
-| Display | 28px  | 700 (bold)      | 1.1         | Nome do app na tela de login                 |
+| Display | 28px  | 600 (semibold)  | 1.1         | Nome do app na tela de login                 |
 
 **Regras:**
 - Nunca usar tamanhos fora destes 4 nesta fase
@@ -157,6 +157,8 @@ Sistema de cores baseado em CSS variables do shadcn/ui — dark mode como padrã
 │                                     │
 └─────────────────────────────────────┘
 ```
+
+**Focal point:** Botão "Entrar com Google" — âncora visual primária (accent, largura total, 44px mínimo). Nome do app "Open Ledger" (Display) — âncora de identidade secundária acima do botão.
 
 - Fundo: `background` (dominant)
 - Card central: **não usar card** — layout full-screen centrado verticalmente
