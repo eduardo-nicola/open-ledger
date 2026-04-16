@@ -699,22 +699,25 @@ supabase db reset
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Tailwind v3 vs v4 no create-next-app**
    - What we know: `tailwindcss` latest é 4.2.2; STACK.md especificou v3
    - What's unclear: `create-next-app` instala v3 ou v4 por padrão em 2026?
    - Recommendation: Deixar `create-next-app` instalar e depois rodar `npx shadcn@latest init` — ele irá adaptar a configuração para a versão instalada
+   - **RESOLUTION:** Usar **Tailwind CSS v4** (4.2.2). npm registry confirma v4.2.2 como latest. shadcn/ui v4 (CLI 4.2.0) é nativo Tailwind v4 e configura `@import "tailwindcss"` automaticamente durante `npx shadcn@latest init`. Não usar config Tailwind v3 (`tailwind.config.js`) — shadcn v4 não a utiliza.
 
 2. **Zod v4 e `@hookform/resolvers`**
    - What we know: Zod latest é 4.3.6; STACK.md especificou v3
    - What's unclear: `@hookform/resolvers` suporta Zod v4?
    - Recommendation: Instalar `zod@latest` e testar; se falhar, `npm install zod@3`
+   - **RESOLUTION:** Instalar `@hookform/resolvers@latest` (sem versão fixada). Durante a instalação, o executor deve verificar se há peer dependency warning com Zod v4. Se houver conflito, fazer downgrade para `zod@3` com `npm install zod@3`. A Fase 1 não usa formulários complexos com validação Zod/RHF — a resolução final acontece na execução do Plan 01.
 
 3. **Google OAuth no Supabase local**
    - What we know: Supabase local usa `supabase/config.toml` para configurar providers
    - What's unclear: Desenvolvimento local com Google OAuth requer credenciais reais do Google Cloud Console ou há um mock?
    - Recommendation: Criar projeto no Google Cloud Console desde o início; não há mock adequado para OAuth — usar credenciais reais mesmo em dev local
+   - **RESOLUTION:** Usar abordagem **storageState do Playwright** para testes E2E — `auth.setup.ts` autentica via `signInWithPassword` (usuário local com email+password criado no seed) e persiste o estado de autenticação em `tests/.auth/user.json`. Testes automatizados não dependem de Google OAuth real. O fluxo Google OAuth completo é verificado apenas no checkpoint manual. Credenciais reais do Google Cloud Console são necessárias apenas para o checkpoint humano (AUTH-01).
 
 ---
 
