@@ -35,7 +35,14 @@ Decimal phases appear between their surrounding integers in numeric order.
 3. Dois usuários distintos na mesma instância não conseguem ver dados um do outro (RLS ativo)
 4. Usuário pode visualizar seu nome e avatar sincronizados via Google
 5. Usuário não autenticado é redirecionado para a tela de login ao acessar qualquer rota protegida
-**Plans**: TBD
+**Plans**: 5 planos em 4 waves
+
+Plans:
+- [ ] 01-01-PLAN.md — Inicialização do projeto Next.js 16 + shadcn/ui zinc/dark + providers (Wave 1)
+- [ ] 01-02-PLAN.md — Supabase backend: CLI + schema inicial (profiles/accounts/transactions) + RLS + trigger (Wave 2)
+- [ ] 01-03-PLAN.md — Auth layer: clientes Supabase tipados + middleware de refresh + callback OAuth (Wave 2, paralelo ao 02)
+- [ ] 01-04-PLAN.md — UI screens: tela de login + app shell mobile-first + tela de perfil read-only (Wave 3)
+- [ ] 01-05-PLAN.md — Testes E2E Playwright + seed SQL + checkpoint de verificação Google OAuth (Wave 4)
 **UI hint**: yes
 
 ---
@@ -148,7 +155,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase                    | Plans Complete | Status      | Completed |
 | ------------------------ | -------------- | ----------- | --------- |
-| 1. Infrastructure & Auth | 0/?            | Not started | -         |
+| 1. Infrastructure & Auth | 0/5            | Not started | -         |
 | 2. Account Management    | 0/?            | Not started | -         |
 | 3. Transactions & Tags   | 0/?            | Not started | -         |
 | 4. Installments          | 0/?            | Not started | -         |
