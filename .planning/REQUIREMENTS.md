@@ -7,10 +7,10 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: Usuário pode fazer login exclusivamente via Google OAuth
-- [ ] **AUTH-02**: Sessão do usuário persiste entre recarregamentos do navegador
-- [ ] **AUTH-03**: Múltiplos usuários podem usar a mesma instância com dados totalmente isolados via RLS
-- [ ] **AUTH-04**: Usuário pode visualizar e editar seu perfil (nome, avatar via Google)
+- [x] **AUTH-01**: Usuário pode fazer login exclusivamente via Google OAuth
+- [x] **AUTH-02**: Sessão do usuário persiste entre recarregamentos do navegador
+- [x] **AUTH-03**: Múltiplos usuários podem usar a mesma instância com dados totalmente isolados via RLS
+- [x] **AUTH-04**: Usuário pode visualizar e editar seu perfil (nome, avatar via Google)
 
 ### Accounts
 
@@ -116,10 +116,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 — Infrastructure & Auth | Pending |
-| AUTH-02 | Phase 1 — Infrastructure & Auth | Pending |
-| AUTH-03 | Phase 1 — Infrastructure & Auth | Pending |
-| AUTH-04 | Phase 1 — Infrastructure & Auth | Pending |
+| AUTH-01 | Phase 1 — Infrastructure & Auth | Complete |
+| AUTH-02 | Phase 1 — Infrastructure & Auth | Complete |
+| AUTH-03 | Phase 1 — Infrastructure & Auth | Complete |
+| AUTH-04 | Phase 1 — Infrastructure & Auth | Complete |
 | ACC-01 | Phase 2 — Account Management | Pending |
 | ACC-02 | Phase 2 — Account Management | Pending |
 | ACC-03 | Phase 2 — Account Management | Pending |

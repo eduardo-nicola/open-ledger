@@ -38,7 +38,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 6 planos em 6 waves
 
 Plans:
-- [ ] 01-01-PLAN.md — Inicialização do projeto Next.js 16 + shadcn/ui zinc/dark + providers (Wave 1)
+- [x] 01-01-PLAN.md — Inicialização do projeto Next.js 16 + shadcn/ui zinc/dark + providers (Wave 1)
 - [ ] 01-02-PLAN.md — Supabase backend: CLI + schema inicial (profiles/accounts/transactions) + RLS + trigger (Wave 2)
 - [ ] 01-03-PLAN.md — Auth layer: clientes Supabase tipados + middleware de refresh + callback OAuth (Wave 3)
 - [ ] 01-04-PLAN.md — UI screens: tela de login + app shell mobile-first + tela de perfil read-only (Wave 4)
