@@ -112,41 +112,41 @@
 
 ## Traceability
 
-*Preenchido durante a criação do roadmap.*
+*Atualizado em 2026-04-15 após criação do roadmap.*
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| ACC-01 | Phase 2 | Pending |
-| ACC-02 | Phase 2 | Pending |
-| ACC-03 | Phase 2 | Pending |
-| ACC-04 | Phase 2 | Pending |
-| ACC-05 | Phase 2 | Pending |
-| TXN-01 | Phase 3 | Pending |
-| TXN-02 | Phase 3 | Pending |
-| TXN-03 | Phase 3 | Pending |
-| TXN-04 | Phase 3 | Pending |
-| TAG-01 | Phase 3 | Pending |
-| TAG-02 | Phase 3 | Pending |
-| INST-01 | Phase 4 | Pending |
-| INST-02 | Phase 4 | Pending |
-| INST-03 | Phase 4 | Pending |
-| INV-01 | Phase 5 | Pending |
-| INV-02 | Phase 5 | Pending |
-| INV-03 | Phase 5 | Pending |
-| INV-04 | Phase 5 | Pending |
-| DASH-01 | Phase 6 | Pending |
-| DASH-02 | Phase 6 | Pending |
-| DASH-03 | Phase 6 | Pending |
-| DASH-04 | Phase 6 | Pending |
-| IMP-01 | Phase 7 | Pending |
-| IMP-02 | Phase 7 | Pending |
-| IMP-03 | Phase 7 | Pending |
-| IMP-04 | Phase 7 | Pending |
-| IMP-05 | Phase 7 | Pending |
+| AUTH-01 | Phase 1 — Infrastructure & Auth | Pending |
+| AUTH-02 | Phase 1 — Infrastructure & Auth | Pending |
+| AUTH-03 | Phase 1 — Infrastructure & Auth | Pending |
+| AUTH-04 | Phase 1 — Infrastructure & Auth | Pending |
+| ACC-01 | Phase 2 — Account Management | Pending |
+| ACC-02 | Phase 2 — Account Management | Pending |
+| ACC-03 | Phase 2 — Account Management | Pending |
+| ACC-04 | Phase 2 — Account Management | Pending |
+| ACC-05 | Phase 2 — Account Management | Pending |
+| TXN-01 | Phase 3 — Transactions & Tags | Pending |
+| TXN-02 | Phase 3 — Transactions & Tags | Pending |
+| TXN-03 | Phase 3 — Transactions & Tags | Pending |
+| TXN-04 | Phase 3 — Transactions & Tags | Pending |
+| TAG-01 | Phase 3 — Transactions & Tags | Pending |
+| TAG-02 | Phase 3 — Transactions & Tags | Pending |
+| INST-01 | Phase 4 — Installments | Pending |
+| INST-02 | Phase 4 — Installments | Pending |
+| INST-03 | Phase 4 — Installments | Pending |
+| INV-01 | Phase 5 — Credit Card Invoices | Pending |
+| INV-02 | Phase 5 — Credit Card Invoices | Pending |
+| INV-03 | Phase 5 — Credit Card Invoices | Pending |
+| INV-04 | Phase 5 — Credit Card Invoices | Pending |
+| DASH-01 | Phase 6 — Dashboard & Reports | Pending |
+| DASH-02 | Phase 6 — Dashboard & Reports | Pending |
+| DASH-03 | Phase 6 — Dashboard & Reports | Pending |
+| DASH-04 | Phase 6 — Dashboard & Reports | Pending |
+| IMP-01 | Phase 7 — CSV/OFX Import | Pending |
+| IMP-02 | Phase 7 — CSV/OFX Import | Pending |
+| IMP-03 | Phase 7 — CSV/OFX Import | Pending |
+| IMP-04 | Phase 7 — CSV/OFX Import | Pending |
+| IMP-05 | Phase 7 — CSV/OFX Import | Pending |
 
 **Coverage:**
 - v1 requirements: 31 total
@@ -155,4 +155,4 @@
 
 ---
 *Requirements defined: 2026-04-15*
-*Last updated: 2026-04-15 after initial definition*
+*Last updated: 2026-04-15 — traceability preenchida após criação do roadmap (7 fases)*
