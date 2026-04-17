@@ -14,6 +14,7 @@ OPEN-LEDGER é construído em ordem de dependência estrita: infraestrutura e au
 Decimal phases appear between their surrounding integers in numeric order.
 
 - **Phase 1: Infrastructure & Auth** - Supabase, Google OAuth, RLS, layout base Next.js mobile-first
+- **Phase 01.1: E2E clarity and test confidence (TST)** (INSERTED) - Documentação, tags e contrato de execução dos testes E2E
 - **Phase 2: Account Management** - CRUD de contas (banco/carteira/cartão), saldo consolidado em tempo real
 - **Phase 3: Transactions & Tags** - Lançamentos manuais, status pago/a pagar, tags com filtros
 - **Phase 4: Installments** - Compras parceladas geram N transações automaticamente com arredondamento correto
@@ -48,10 +49,20 @@ Plans:
 
 ---
 
+### Phase 01.1: E2E clarity and test confidence (TST) (INSERTED)
+
+**Goal:** Reduzir variações confusas nos testes E2E; documentar **Google OAuth real** (conta de teste sem 2FA) com **duas variações** (Google já logado vs login completo); em seguida executar a suíte já existente; alinhar tags com rastreabilidade (ver `.planning/TESTING-INITIATIVE.md` e `01.1-CONTEXT.md`).
+**Requirements**: TST-01 … TST-07 (definidos na iniciativa; formalizar no `REQUIREMENTS.md` ao planejar)
+**Depends on:** Phase 1
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (executar `/gsd-plan-phase 01.1` para detalhar)
+
 ### Phase 2: Account Management
 
 **Goal**: Usuário pode criar e gerenciar suas contas bancárias, carteiras e cartões de crédito, vendo o saldo consolidado em tempo real
-**Depends on**: Phase 1
+**Depends on**: Phase 01.1
 **Requirements**: ACC-01, ACC-02, ACC-03, ACC-04, ACC-05
 **Success Criteria** (what must be TRUE):
 
@@ -151,12 +162,13 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
+Phases execute in numeric order: 1 → 01.1 → 2 → 3 → 4 → 5 → 6 → 7
 
 
 | Phase                    | Plans Complete | Status      | Completed |
 | ------------------------ | -------------- | ----------- | --------- |
 | 1. Infrastructure & Auth | 0/5            | Not started | -         |
+| 01.1. E2E clarity (TST)  | 0/?            | Not started | -         |
 | 2. Account Management    | 0/?            | Not started | -         |
 | 3. Transactions & Tags   | 0/?            | Not started | -         |
 | 4. Installments          | 0/?            | Not started | -         |
