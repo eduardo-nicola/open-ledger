@@ -42,7 +42,7 @@ Plans:
 - [x] 01-02-PLAN.md — Supabase backend: CLI + schema inicial (profiles/accounts/transactions) + RLS + trigger (Wave 2)
 - [x] 01-03-PLAN.md — Auth layer: clientes Supabase tipados + middleware de refresh + callback OAuth (Wave 3)
 - [x] 01-04-PLAN.md — UI screens: tela de login + app shell mobile-first + tela de perfil read-only (Wave 4)
-- [ ] 01-05-PLAN.md — Playwright config (3 projetos) + seed SQL + stubs de teste por @auth-XX (Wave 5)
+- [x] 01-05-PLAN.md — Playwright config (3 projetos) + seed SQL + stubs de teste por @auth-XX (Wave 5)
 - [ ] 01-06-PLAN.md — Implementação e execução dos testes E2E + checkpoint de verificação Google OAuth (Wave 6)
 **UI hint**: yes
 
