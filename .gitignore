@@ -46,6 +46,7 @@ supabase/.branches/*
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+tests/.auth/
 
 # typescript
 *.tsbuildinfo
