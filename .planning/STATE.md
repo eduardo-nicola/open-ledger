@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-05-PLAN.md
-last_updated: "2026-04-17T17:03:20.245Z"
+stopped_at: Phase 01.1 context gathered
+last_updated: "2026-04-17T20:50:03.376Z"
 last_activity: 2026-04-17 -- Phase 01 execution started
 progress:
-  total_phases: 7
+  total_phases: 8
   completed_phases: 1
   total_plans: 6
   completed_plans: 6
@@ -59,6 +59,10 @@ Progress: [░░░░░░░░░░] 0%
 
 ## Accumulated Context
 
+### Roadmap Evolution
+
+- Phase 01.1 inserida após a Fase 1: E2E clarity and test confidence (TST) (URGENT)
+
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
@@ -90,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-17T11:43:40.541Z
-Stopped at: Completed 01-05-PLAN.md
-Resume file: None
+Last session: 2026-04-17T20:50:03.374Z
+Stopped at: Phase 01.1 context gathered
+Resume file: .planning/phases/01.1-e2e-clarity-and-test-confidence-tst/01.1-CONTEXT.md
