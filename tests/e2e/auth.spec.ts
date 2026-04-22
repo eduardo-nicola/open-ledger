@@ -15,7 +15,7 @@ test('@smoke @auth-02 - sessao persiste apos reload do navegador', async ({ page
   await expect(page.getByRole('heading', { name: 'Meu Perfil' }).first()).toBeVisible()
 })
 
-test('@smoke @auth-04 - tela de perfil exibe nome e email do usuario', async ({ page }) => {
+test('@smoke @auth-04a - tela de perfil exibe nome e email do usuario', async ({ page }) => {
   await page.goto('/profile')
   await expect(page).toHaveURL(/.*\/profile/)
   await expect(page.getByText('Test User')).toBeVisible()
@@ -23,7 +23,7 @@ test('@smoke @auth-04 - tela de perfil exibe nome e email do usuario', async ({ 
   await expect(page.getByRole('button', { name: 'Sair da conta' })).toBeVisible()
 })
 
-test('@smoke @auth-04 - tela de perfil nao contem inputs de edicao (read-only)', async ({
+test('@smoke @auth-04b - tela de perfil nao contem inputs de edicao (read-only)', async ({
   page,
 }) => {
   await page.goto('/profile')
@@ -31,7 +31,7 @@ test('@smoke @auth-04 - tela de perfil nao contem inputs de edicao (read-only)',
   await expect(page.locator('input')).toHaveCount(0)
 })
 
-test('@smoke @auth-04 - botao logout abre AlertDialog de confirmacao', async ({ page }) => {
+test('@smoke @auth-04c - botao logout abre AlertDialog de confirmacao', async ({ page }) => {
   await page.goto('/profile')
   await page.getByRole('button', { name: 'Sair da conta' }).click()
   await expect(page.getByText('Sair da conta?')).toBeVisible()
@@ -44,7 +44,7 @@ test('@smoke @auth-04 - botao logout abre AlertDialog de confirmacao', async ({ 
   await expect(page.getByRole('button', { name: 'Sair' })).toBeVisible()
 })
 
-test('@smoke @auth-04 - logout redireciona para /login', async ({ page }) => {
+test('@smoke @auth-04d - logout redireciona para /login', async ({ page }) => {
   await page.goto('/profile')
   await page.getByRole('button', { name: 'Sair da conta' }).click()
   await page.getByRole('button', { name: 'Sair' }).click()
