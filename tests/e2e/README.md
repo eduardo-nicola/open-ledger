@@ -171,14 +171,21 @@ Os projetos `chromium` e `chromium-unauth` (que rodam os testes em si) são semp
 
 ---
 
-## Definição de pronto para PR (TST-07)
+## Portão de PR (E2E)
 
-Antes de mergear um PR que toca `tests/e2e/` ou `playwright.config.ts`:
+Antes de mergear qualquer PR que toque `tests/e2e/`, `playwright.config.ts` ou qualquer fluxo de autenticação:
 
-- [ ] `npm run test:e2e:smoke` verde localmente (modo `password`, sem segredos Google)
-- [ ] Nenhum teste com `test.only` commitado (bloqueado por `forbidOnly: !!process.env.CI`)
-- [ ] Se o PR altera o fluxo de autenticação Google: Variação A ou B executada manualmente e confirmada
-- [ ] Tags `@auth-XX` novas documentadas na tabela do README (plano 02 — higiene de tags)
+- [ ] `npm run test:e2e:smoke` verde localmente com `E2E_AUTH_MODE=password` (ou variável não definida — o padrão em código é `password`). Nenhum teste falhando antes do merge.
+- [ ] Se a falha for de dados (seed ausente ou usuário de teste inexistente): executar `supabase db reset` para reaplicar migrations + seed e reconfirmar que `test@open-ledger.local` existe antes de rodar novamente.
+- [ ] Se o PR altera fluxo de autenticação ou OAuth Google: executar `npm run test:e2e:google` (Variação A ou B) localmente e confirmar chegada em `/profile` — **obrigatório para mudanças em auth/OAuth**, recomendado para demais alterações em `auth.setup.ts`.
+- [ ] Nenhum teste com `test.only` commitado (bloqueado por `forbidOnly: !!process.env.CI` em produção).
+- [ ] Tags `@auth-XX` novas documentadas na tabela de rastreio deste README.
+
+**Status de CI:**
+
+Nenhum workflow GitHub Actions de E2E está versionado neste repositório.
+
+> **Nota CI:** Login Google real em CI exige segredos GitHub dedicados (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `E2E_GOOGLE_TEST_EMAIL`, `E2E_GOOGLE_TEST_PASSWORD`) e pode ser bloqueado por anti-bot. Quando um workflow for criado, o job Google deve ser **opcional** (`continue-on-error: true` ou job separado) para não bloquear PRs sem credenciais OAuth disponíveis no ambiente de CI (decisão D-07).
 
 ---
 
