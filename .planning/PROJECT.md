@@ -12,7 +12,7 @@ Visão completa e em tempo real das finanças pessoais: saldo atual consolidado 
 
 ### Validated
 
-(None yet — ship to validate)
+- **Contrato E2E e iniciativa TST (Phase 01.1)** — README em `tests/e2e/`, requisitos TST-01…TST-07 em `REQUIREMENTS.md`, tags AUTH 1:1, mensagens de setup acionáveis e portão de PR documentado. Validado em Phase 01.1: e2e-clarity-and-test-confidence-tst.
 
 ### Active
 
@@ -105,4 +105,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-15 after initialization*
+*Last updated: 2026-04-22 after Phase 01.1 (E2E clarity and test confidence)*
