@@ -182,4 +182,39 @@ Antes de mergear um PR que toca `tests/e2e/` ou `playwright.config.ts`:
 
 ---
 
+## Tags e rastreio (AUTH)
+
+Mapeamento 1:1 entre tags Playwright e sub-capacidades dos requisitos. Use para localizar qual cenário cobre qual requisito sem ler o corpo do teste.
+
+| Tag | Requisito | Arquivo | O que verifica |
+|-----|-----------|---------|----------------|
+| @auth-01 | AUTH-01 | tests/e2e/auth.spec.ts | Usuário autenticado em /login é redirecionado para /profile |
+| @auth-02 | AUTH-02 | tests/e2e/auth.spec.ts | Sessão persiste após reload do navegador |
+| @auth-03 | AUTH-03 | tests/e2e/rls.spec.ts | Isolamento de dados entre usuários (RLS) |
+| @auth-04a | AUTH-04 | tests/e2e/auth.spec.ts | Nome e email do usuário visíveis na tela de perfil |
+| @auth-04b | AUTH-04 | tests/e2e/auth.spec.ts | Tela de perfil em modo read-only (sem inputs de edição) |
+| @auth-04c | AUTH-04 | tests/e2e/auth.spec.ts | Botão de logout abre AlertDialog de confirmação |
+| @auth-04d | AUTH-04 | tests/e2e/auth.spec.ts | Confirmação de logout redireciona para /login |
+
+> `@auth-03` vive em `tests/e2e/rls.spec.ts` — não está coberto por `auth.spec.ts`.
+
+Para inspecionar todas as tags auth no repositório:
+
+```bash
+rg '@auth-' tests/e2e
+```
+
+---
+
+## Scripts npm e grep
+
+Os scripts E2E usam `--grep` para filtrar testes pelo título:
+
+- `npm run test:e2e:smoke` executa `playwright test --grep @smoke` — subconjunto rápido marcado com `@smoke`; inclui `@auth-01`, `@auth-02`, `@auth-04a`…`@auth-04d`.
+- `npm run test:e2e:auth` executa `playwright test --grep @auth` — todos os cenários cujo título contenha `@auth` (grep por substring); captura `@auth-01`, `@auth-02`, `@auth-04a`, `@auth-04b`, `@auth-04c`, `@auth-04d`. É um **superconjunto** do smoke: adiciona qualquer cenário `@auth` futuro não marcado `@smoke`.
+- `npm run test:e2e:google` executa `env E2E_AUTH_MODE=google playwright test --grep @smoke` — mesmos cenários do smoke mas com setup Google OAuth real.
+- Ambos `test:e2e:smoke` e `test:e2e:auth` respeitam o mesmo `storageState` / modo de auth definido por `E2E_AUTH_MODE` no momento da execução.
+
+---
+
 *Referência da iniciativa: `.planning/TESTING-INITIATIVE.md`*
