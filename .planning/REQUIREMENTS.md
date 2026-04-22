@@ -12,6 +12,18 @@
 - [x] **AUTH-03**: Múltiplos usuários podem usar a mesma instância com dados totalmente isolados via RLS
 - [x] **AUTH-04**: Usuário pode visualizar e editar seu perfil (nome, avatar via Google)
 
+### E2E testing initiative (Phase 01.1)
+
+Esta seção formaliza os requisitos da iniciativa de clareza e confiança nos testes E2E, executada na Fase 01.1 do roadmap. Os TST-IDs rastreiam o contrato de execução Playwright (Google OAuth real como caminho de confiança, Variações A/B, matriz de comandos, higiene de tags e portão de PR).
+
+- [ ] **TST-01**: Existe documentação (`tests/e2e/README.md`) com pré-requisitos (`supabase db reset`, `.env.local`), variáveis obrigatórias e matriz "modo × comando × quando usar"
+- [ ] **TST-02**: O caminho padrão (local + PR) está explícito: autenticação por Google OAuth real com conta de teste sem 2FA; Variação A (sessão Google já presente) e Variação B (login completo até `/profile`) descritas passo a passo
+- [ ] **TST-03**: O caminho por email/senha + API Supabase (injeção de sessão sem OAuth) está explícito como secundário ou apenas debug — nunca como substituto silencioso do login Google quando se fala em "teste de confiança"
+- [ ] **TST-04**: Cada teste `@smoke` usa no máximo um identificador de requisito de roadmap (`@auth-01` …) sem reutilizar o mesmo ID para cenários diferentes; ou os IDs são renomeados para granularidade (ex.: `@auth-04a`, `@auth-04b`) com tabela no README
+- [ ] **TST-05**: `npm run test:e2e:auth` e `test:e2e:smoke` têm semântica documentada (subconjunto vs conjunto; grep atual `@auth` vs `@smoke`)
+- [ ] **TST-06**: Falhas comuns do setup (`auth.setup`, seed, cookies) produzem mensagens que apontam uma correção (ex.: "rode seed", "falta env X")
+- [ ] **TST-07**: Lista mínima de "definição de pronto" para PR: quais jobs E2E rodam no CI e qual modo de auth
+
 ### Accounts
 
 - [ ] **ACC-01**: Usuário pode criar conta bancária, carteira digital ou cartão de crédito com nome, tipo e cor personalizada
