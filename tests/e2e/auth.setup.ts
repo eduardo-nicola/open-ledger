@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 
-import { Buffer } from 'node:buffer'
-
 import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { expect, test as setup, type Page } from '@playwright/test'
 
 import { loadEnvFromDotEnvLocal } from './helpers/env'
+
+const E2E_SETUP_PREFIX = '[E2E setup]'
 
 const AUTH_FILE = path.join(__dirname, '../.auth/user.json')
 const DEFAULT_MANUAL_AUTH_TIMEOUT_MS = 15 * 60 * 1000
@@ -31,22 +31,35 @@ const waitForProfileRoute = async (page: Page): Promise<void> => {
   while (Date.now() < deadline) {
     try {
       if (page.isClosed()) {
-        throw new Error('Navegador fechado durante o login. Rode o setup de novo com --headed.')
+        throw new Error(`${E2E_SETUP_PREFIX} Navegador fechado durante o login. Rode o setup de novo com --headed.`)
       }
       if (page.url().includes('/profile')) {
         return
       }
     } catch (error) {
       if (page.isClosed()) {
-        throw new Error('Navegador fechado durante o login. Rode o setup de novo com --headed.')
+        throw new Error(`${E2E_SETUP_PREFIX} Navegador fechado durante o login. Rode o setup de novo com --headed.`)
       }
       throw error
     }
     await page.waitForTimeout(1000)
   }
 
+  const isGoogleModeWithoutCredentials =
+    process.env.E2E_AUTH_MODE === 'google' &&
+    (!process.env.E2E_GOOGLE_TEST_EMAIL || !process.env.E2E_GOOGLE_TEST_PASSWORD)
+
+  if (isGoogleModeWithoutCredentials) {
+    throw new Error(
+      `${E2E_SETUP_PREFIX} Timeout aguardando /profile no modo google sem credenciais automáticas.\n` +
+        `Defina E2E_GOOGLE_TEST_EMAIL e E2E_GOOGLE_TEST_PASSWORD no .env.local para automação de preenchimento,\n` +
+        `ou conclua o login manual acessando /login no browser headed aberto pelo Playwright.`,
+    )
+  }
+
   throw new Error(
-    `Nao foi possivel concluir o login dentro de ${timeoutMs}ms. Se precisar de mais tempo para 2FA, defina E2E_MANUAL_AUTH_TIMEOUT_MS no ambiente.`,
+    `${E2E_SETUP_PREFIX} Timeout de ${timeoutMs}ms aguardando /profile. ` +
+      `Para mais tempo, defina E2E_MANUAL_AUTH_TIMEOUT_MS no ambiente (útil em redes lentas ou com 2FA).`,
   )
 }
 
@@ -121,7 +134,8 @@ const persistSessionWithPassword = async (
 
   if (error || !data.session) {
     throw new Error(
-      `auth.setup (email/senha) falhou: ${error?.message ?? 'sem sessao'}. Rode supabase db reset e confirme o seed.`,
+      `${E2E_SETUP_PREFIX} Login com email/senha falhou: ${error?.message ?? 'sem sessao'}.\n` +
+        `Verifique se o seed foi aplicado: rode \`supabase db reset\` e confirme que test@open-ledger.local existe.`,
     )
   }
 
@@ -188,7 +202,7 @@ const persistSessionWithPassword = async (
   })
 
   if (sessionError) {
-    throw new Error(`auth.setup nao conseguiu gravar sessao nos cookies: ${sessionError.message}`)
+    throw new Error(`${E2E_SETUP_PREFIX} Nao foi possivel gravar sessao nos cookies: ${sessionError.message}`)
   }
 
   await page.goto('/profile')
@@ -203,64 +217,20 @@ const runGoogleManualSetup = async (page: Page): Promise<void> => {
   await waitForProfileRoute(page)
 }
 
-type StorageStateCookie = { name: string; domain: string; value: string; expires: number }
-
-const readSupabaseSessionExpiresAt = (cookies: StorageStateCookie[] | undefined): number | null => {
-  const chunk0 =
-    cookies?.find((cookie) => /^sb-.+-auth-token\.0$/.test(cookie.name)) ??
-    cookies?.find((cookie) => /^sb-.+-auth-token$/.test(cookie.name))
-  if (!chunk0?.value?.startsWith('base64-')) {
-    return null
-  }
-
-  try {
-    const payload = Buffer.from(chunk0.value.slice('base64-'.length), 'base64url').toString('utf8')
-    const parsedPayload = JSON.parse(payload) as { expires_at?: number }
-    return typeof parsedPayload.expires_at === 'number' ? parsedPayload.expires_at : null
-  } catch {
-    return null
-  }
-}
-
-const hasValidStorageState = (): boolean => {
-  if (!fs.existsSync(AUTH_FILE)) {
-    return false
-  }
-
-  try {
-    const rawState = fs.readFileSync(AUTH_FILE, 'utf-8')
-    const parsedState = JSON.parse(rawState) as {
-      cookies?: StorageStateCookie[]
-    }
-
-    const expiresAt = readSupabaseSessionExpiresAt(parsedState.cookies)
-    if (!expiresAt) {
-      return false
-    }
-
-    const nowInSeconds = Math.floor(Date.now() / 1000)
-    return expiresAt > nowInSeconds + 60
-  } catch {
-    return false
-  }
-}
-
 setup('autenticar e salvar storageState', async ({ page }, testInfo) => {
   loadEnvFromDotEnvLocal()
   testInfo.setTimeout(getManualAuthTimeoutMs() + 120_000)
 
   const authMode = (process.env.E2E_AUTH_MODE ?? 'password').toLowerCase()
 
-  if (authMode === 'google' && hasValidStorageState()) {
-    return
-  }
-
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !anonKey) {
     throw new Error(
-      'Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY (.env.local) para o setup E2E.',
+      `${E2E_SETUP_PREFIX} Variáveis obrigatórias ausentes no .env.local.\n` +
+        `Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY com os valores de \`supabase start\`.\n` +
+        `Consulte tests/e2e/README.md para o passo a passo completo.`,
     )
   }
 
