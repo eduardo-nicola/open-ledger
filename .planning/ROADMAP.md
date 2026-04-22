@@ -54,13 +54,13 @@ Plans:
 **Goal:** Reduzir variações confusas nos testes E2E; documentar **Google OAuth real** (conta de teste sem 2FA) com **duas variações** (Google já logado vs login completo); em seguida executar a suíte já existente; alinhar tags com rastreabilidade (ver `.planning/TESTING-INITIATIVE.md` e `01.1-CONTEXT.md`).
 **Requirements**: TST-01 … TST-07 (definidos na iniciativa; formalizar no `REQUIREMENTS.md` no plano 01.1-01)
 **Depends on:** Phase 1
-**Plans:** 4 plans em 4 waves
+**Plans:** 4/4 plans complete
 
 Plans:
-- [ ] 01.1-01-PLAN.md — REQUIREMENTS TST + README contrato + .env.example (Wave 1)
-- [ ] 01.1-02-PLAN.md — Tags 1:1 + documentação scripts (Wave 2)
-- [ ] 01.1-03-PLAN.md — Mensagens de erro acionáveis no auth.setup (Wave 3)
-- [ ] 01.1-04-PLAN.md — Portão de PR / CI no README (Wave 4)
+- [x] 01.1-01-PLAN.md — REQUIREMENTS TST + README contrato + .env.example (Wave 1)
+- [x] 01.1-02-PLAN.md — Tags 1:1 + documentação scripts (Wave 2)
+- [x] 01.1-03-PLAN.md — Mensagens de erro acionáveis no auth.setup (Wave 3)
+- [x] 01.1-04-PLAN.md — Portão de PR / CI no README (Wave 4)
 
 ### Phase 2: Account Management
 
@@ -171,7 +171,7 @@ Phases execute in numeric order: 1 → 01.1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase                    | Plans Complete | Status      | Completed |
 | ------------------------ | -------------- | ----------- | --------- |
 | 1. Infrastructure & Auth | 0/5            | Not started | -         |
-| 01.1. E2E clarity (TST)  | 0/?            | Not started | -         |
+| 01.1. E2E clarity (TST)  | 4/4 | Complete    | 2026-04-22 |
 | 2. Account Management    | 0/?            | Not started | -         |
 | 3. Transactions & Tags   | 0/?            | Not started | -         |
 | 4. Installments          | 0/?            | Not started | -         |
