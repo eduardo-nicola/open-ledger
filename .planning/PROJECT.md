@@ -13,13 +13,14 @@ Visão completa e em tempo real das finanças pessoais: saldo atual consolidado 
 ### Validated
 
 - **Contrato E2E e iniciativa TST (Phase 01.1)** — README em `tests/e2e/`, requisitos TST-01…TST-07 em `REQUIREMENTS.md`, tags AUTH 1:1, mensagens de setup acionáveis e portão de PR documentado. Validado em Phase 01.1: e2e-clarity-and-test-confidence-tst.
+- **Gestão de contas (Phase 02)** — CRUD via Server Actions + Zod, saldo consolidado (checking + carteira, exclui cartão e arquivadas), dias de fechamento/vencimento no Postgres, gráfico ACC-05 stub (série constante), navegação `/accounts`, E2E `accounts.spec.ts` com tags ACC. Validado em Phase 02: account-management.
 
 ### Active
 
 **Contas e Carteiras**
-- [ ] Usuário pode criar e gerenciar múltiplas contas bancárias, carteiras digitais e cartões de crédito
-- [ ] Saldo de cada conta é exibido em tempo real com total consolidado
-- [ ] Cada conta tem tipo (banco, carteira, cartão de crédito) e moeda (BRL)
+- [x] Usuário pode criar e gerenciar múltiplas contas bancárias, carteiras digitais e cartões de crédito
+- [x] Saldo de cada conta é exibido em tempo real com total consolidado
+- [x] Cada conta tem tipo (banco, carteira, cartão de crédito) e moeda (BRL)
 
 **Transações**
 - [ ] Usuário pode lançar despesas e receitas manualmente com valor, data, descrição, conta e tags
@@ -105,4 +106,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-22 after Phase 01.1 (E2E clarity and test confidence)*
+*Last updated: 2026-04-23 after Phase 02 (account-management)*

@@ -7,6 +7,9 @@ import {
   createAccountSchema,
   updateAccountSchema,
 } from '@/lib/accounts/schema'
+import type { Database } from '@/types/database'
+
+type AccountUpdate = Database['public']['Tables']['accounts']['Update']
 
 export async function createAccount(input: unknown) {
   const parsed = createAccountSchema.safeParse(input)
@@ -62,7 +65,7 @@ export async function updateAccount(input: unknown) {
 
   const { id, name, type, color, closing_day, due_day, archived_at } = parsed.data
 
-  const patch: Record<string, unknown> = {}
+  const patch: AccountUpdate = {}
   if (name !== undefined) patch.name = name
   if (type !== undefined) {
     patch.type = type

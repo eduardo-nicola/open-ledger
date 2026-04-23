@@ -78,10 +78,10 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 02-01-PLAN.md — Migration `closing_day`/`due_day`, `supabase db push`, tipos `types/database.ts` (Wave 1)
-- [ ] 02-02-PLAN.md — Zod, Server Actions, queries consolidadas, regra ACC-05 série constante (Wave 2)
-- [ ] 02-03-PLAN.md — Rotas `/accounts`, Recharts+shadcn chart, nav habilitada, UI-SPEC (Wave 3)
-- [ ] 02-04-PLAN.md — Playwright `accounts.spec.ts` @acc-01..05, config, README (Wave 4)
+- [x] 02-01-PLAN.md — Migration `closing_day`/`due_day`, `supabase db push`, tipos `types/database.ts` (Wave 1)
+- [x] 02-02-PLAN.md — Zod, Server Actions, queries consolidadas, regra ACC-05 série constante (Wave 2)
+- [x] 02-03-PLAN.md — Rotas `/accounts`, Recharts+shadcn chart, nav habilitada, UI-SPEC (Wave 3)
+- [x] 02-04-PLAN.md — Playwright `accounts.spec.ts` @acc-01..05, config, README (Wave 4)
 
 ---
 

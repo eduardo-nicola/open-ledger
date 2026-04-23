@@ -13,7 +13,7 @@ import {
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, activeInPhase1: false },
-  { href: '/accounts', label: 'Contas', icon: Landmark, activeInPhase1: false },
+  { href: '/accounts', label: 'Contas', icon: Landmark, activeInPhase1: true },
   { href: '/transactions', label: 'Transações', icon: ArrowLeftRight, activeInPhase1: false },
   { href: '/profile', label: 'Perfil', icon: User, activeInPhase1: true },
 ] as const

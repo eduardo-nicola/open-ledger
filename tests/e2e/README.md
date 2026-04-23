@@ -189,6 +189,16 @@ Nenhum workflow GitHub Actions de E2E está versionado neste repositório.
 
 ---
 
+## Contas (Fase 2)
+
+- **Arquivo:** `tests/e2e/accounts.spec.ts` — requisitos ACC-01…ACC-05 com tags `@acc-01` … `@acc-05` e `@smoke` nos títulos.
+- **Comando direcionado (exemplo ACC-04):** `npx playwright test tests/e2e/accounts.spec.ts -g @acc-04`
+- **Contrato de assert (ACC-04):** o saldo consolidado na lista usa `data-testid="consolidated-balance-cents"` e `data-value` com o total em **centavos** (inteiro). Os testes usam `.first()` se houver mais de um nó visível em modo dev.
+- **Pré-requisitos:** após alterar migrations, rode `supabase db push` ou `supabase db reset` localmente antes dos E2E. O cenário `@acc-04` usa `SUPABASE_SERVICE_ROLE_KEY` do `.env.test` para ajustar saldos de contas do usuário seed (apenas ambiente local/CI controlado).
+- **Smoke:** `npm run test:e2e:smoke` inclui os cenários `@smoke` de contas quando o projeto `chromium` está configurado com `accounts.spec.ts`.
+
+---
+
 ## Tags e rastreio (AUTH)
 
 Mapeamento 1:1 entre tags Playwright e sub-capacidades dos requisitos. Use para localizar qual cenário cobre qual requisito sem ler o corpo do teste.

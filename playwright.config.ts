@@ -37,7 +37,7 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      testMatch: ['**/auth.spec.ts', '**/rls.spec.ts'],
+      testMatch: ['**/auth.spec.ts', '**/rls.spec.ts', '**/accounts.spec.ts'],
       use: {
         ...devices['Desktop Chrome'],
         storageState: authFile,

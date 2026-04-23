@@ -1,3 +1,5 @@
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+
 export interface Database {
   public: {
     Tables: {
@@ -15,6 +17,7 @@ export interface Database {
         Update: {
           updated_at?: string
         }
+        Relationships: []
       }
       accounts: {
         Row: {
@@ -56,6 +59,15 @@ export interface Database {
           updated_at?: string
           archived_at?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: 'accounts_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
       }
       transactions: {
         Row: {
@@ -90,6 +102,22 @@ export interface Database {
           status?: 'paid' | 'pending'
           updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: 'transactions_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'transactions_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
     Views: Record<string, never>
