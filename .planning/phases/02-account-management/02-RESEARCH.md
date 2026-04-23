@@ -302,17 +302,13 @@ ALTER TABLE public.accounts ADD CONSTRAINT accounts_credit_card_days_chk
 | A1 | Fase 3 manterá `accounts.balance` sincronizado com transações pagas | Summary / Pitfall 3 | Gráfico e saldo divergem permanentemente |
 | A2 | Semântica de dia 31 = “último dia do mês” será definida na Fase 5 | Pitfall 4 | Migration precisa revisão |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Fonte do histórico ACC-05 antes de TXN-01**
-   - What we know: existe `transactions` com `status`/`amount`/`date`; pode não haver linhas.
-   - What's unclear: usar só `balance` vs cumulativo de `paid`.
-   - Recommendation: plano escolhe uma regra e adiciona teste de regressão.
+1. **Fonte do histórico ACC-05 antes de TXN-01** — **RESOLVED (2026-04-22)**  
+   - **Decisão:** série diária **constante** = `accounts.balance` em cada dia do intervalo; comentário grepável obrigatório em `lib/accounts/balance-history.ts` conforme `02-02-PLAN.md`. Fase 3 substituirá por acumulado de transações pagas quando TXN existir.
 
-2. **Onde exibir o consolidado ACC-04**
-   - What we know: roadmap fala “tela principal”; nav tem `/accounts`.
-   - What's unclear: cabeçalho da lista vs página dashboard ainda inativa.
-   - Recommendation: consolidado no topo de `/accounts` até DASH na Fase 6.
+2. **Onde exibir o consolidado ACC-04** — **RESOLVED (2026-04-22)**  
+   - **Decisão:** topo da rota `/accounts` (lista de contas), com `data-testid="consolidated-balance-cents"` conforme `02-03-PLAN.md` / `02-04-PLAN.md`, até dashboard na Fase 6.
 
 ## Environment Availability
 
