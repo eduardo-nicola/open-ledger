@@ -5,7 +5,7 @@ import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { expect, test as setup, type Page } from '@playwright/test'
 
-import { loadEnvFromDotEnvLocal } from './helpers/env'
+import { loadEnvFromDotEnvTest } from './helpers/env'
 
 const E2E_SETUP_PREFIX = '[E2E setup]'
 
@@ -52,7 +52,7 @@ const waitForProfileRoute = async (page: Page): Promise<void> => {
   if (isGoogleModeWithoutCredentials) {
     throw new Error(
       `${E2E_SETUP_PREFIX} Timeout aguardando /profile no modo google sem credenciais automáticas.\n` +
-        `Defina E2E_GOOGLE_TEST_EMAIL e E2E_GOOGLE_TEST_PASSWORD no .env.local para automação de preenchimento,\n` +
+        `Defina E2E_GOOGLE_TEST_EMAIL e E2E_GOOGLE_TEST_PASSWORD no .env.test para automação de preenchimento,\n` +
         `ou conclua o login manual acessando /login no browser headed aberto pelo Playwright.`,
     )
   }
@@ -99,14 +99,8 @@ const tryGoogleCredentialLogin = async (page: Page): Promise<void> => {
       if (await passwordInput.isVisible().catch(() => false)) {
         await passwordInput.fill(googleTestPassword)
         await page.getByRole('button', { name: /Next|Próxima|Proximo/i }).click()
-        const continueButton = page
-          .getByRole('button', { name: /Continue|Continuar/i })
-          .first()
-        if (await continueButton.isVisible({ timeout: 5000 }).catch(() => false)) {
-          await continueButton.click()
-        }
         await page.waitForTimeout(1000)
-        continue
+        await page.getByRole('button',  { name: /Continue|Continuar/i }).click()
       }
     } catch {
       if (page.isClosed()) {
@@ -218,7 +212,7 @@ const runGoogleManualSetup = async (page: Page): Promise<void> => {
 }
 
 setup('autenticar e salvar storageState', async ({ page }, testInfo) => {
-  loadEnvFromDotEnvLocal()
+  loadEnvFromDotEnvTest()
   testInfo.setTimeout(getManualAuthTimeoutMs() + 120_000)
 
   const authMode = (process.env.E2E_AUTH_MODE ?? 'password').toLowerCase()
@@ -228,7 +222,7 @@ setup('autenticar e salvar storageState', async ({ page }, testInfo) => {
 
   if (!supabaseUrl || !anonKey) {
     throw new Error(
-      `${E2E_SETUP_PREFIX} Variáveis obrigatórias ausentes no .env.local.\n` +
+      `${E2E_SETUP_PREFIX} Variáveis obrigatórias ausentes no .env.test.\n` +
         `Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY com os valores de \`supabase start\`.\n` +
         `Consulte tests/e2e/README.md para o passo a passo completo.`,
     )

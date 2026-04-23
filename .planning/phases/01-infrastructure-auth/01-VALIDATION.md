@@ -20,21 +20,38 @@ updated: 2026-04-17
 |----------|-------|
 | **Framework** | Playwright (`@playwright/test` ^1.59) |
 | **Config file** | `playwright.config.ts` |
-| **Quick run command** | `npx playwright test --grep @smoke` (ou `npm run test:e2e -- --grep @smoke`) |
-| **Full suite command** | `npm run test:e2e` / `npx playwright test` |
-| **Estimated runtime** | ~10–30 s (smoke local, 1 worker) |
+| **Suite completa (local)** | `npm run test:e2e` — todos os projetos e todos os testes (modo auth = `E2E_AUTH_MODE` no `.env`, padrao **password**) |
+| **Smoke (feedback rapido)** | `npm run test:e2e:smoke` — equivalente a `playwright test --grep @smoke` |
+| **Estimated runtime** | ~10–30 s (smoke, 1 worker); suite completa similar se todos os testes forem `@smoke` |
 
 **Projetos:** `setup` → `auth.setup.ts`; `chromium` (com `storageState`) → `auth.spec.ts`, `rls.spec.ts`; `chromium-unauth` (sem storage) → `auth-unauthenticated.spec.ts`.
 
-**Ambiente:** `.env.local` com Supabase local; seed em `supabase/seed.sql`. Testes RLS usam `SUPABASE_SERVICE_ROLE_KEY` (via `tests/e2e/helpers/env.ts`). Em CI, definir `env -u CI` se for necessário reutilizar servidor já em `:3000` (Playwright `reuseExistingServer`).
+**Ambiente:** `.env.local` com Supabase local; seed em `supabase/seed.sql`. Testes RLS usam `SUPABASE_SERVICE_ROLE_KEY` (via `tests/e2e/helpers/env.ts`).
+
+**CI (`reuseExistingServer`):** com **`CI=true`** (GitHub Actions, GitLab CI, etc.), o Playwright **sempre** sobe o `webServer` (`npm run dev`) em porta livre — confiavel na pipeline. Localmente, sem `CI`, pode reutilizar servidor ja em `:3000`.
+
+---
+
+## Pipeline — comandos por nivel
+
+| Objetivo | Comando npm | Quando usar |
+|----------|-------------|-------------|
+| **Validar tudo (automacao padrao seed)** | `npm run test:e2e` | PR/local com Supabase + `.env.local`; em CI o provedor ja exporta `CI=true` |
+| **So regressao rapida @smoke** | `npm run test:e2e:smoke` | Pre-commit, matrix rapida; na CI use com `CI=true` no ambiente do job |
+| **Um requisito (granular)** | `npm run test:e2e:auth-01` … `test:e2e:auth-04` | Jobs paralelos por requisito ou depuracao; o Playwright ainda executa o **setup** quando o projeto `chromium` participa do grep |
+| **OAuth Google real (opcional)** | `npm run test:e2e:google` | Job separado com secrets `E2E_GOOGLE_*` + `GOOGLE_*` validos; Chrome **headed** no `playwright.config` — em Linux headless CI use **xvfb-run** ou runner com display |
+
+**Confiabilidade 100% na pipeline (recomendado):** um job obrigatorio com **`CI=true`** + `npm run test:e2e:smoke` (ou `test:e2e`) com **`E2E_AUTH_MODE`** omitido ou `password`, Supabase aplicado (seed) e variaveis anon/service no secret store. O fluxo **Google completo** nao e deterministico (Google pode bloquear automacao); trate `npm run test:e2e:google` como **job opcional** ou apenas local, nao como unico gate de merge.
+
+**Windows:** prefixos `env VAR=...` nos scripts podem falhar no `cmd.exe`; use `set E2E_AUTH_MODE=google&& npx playwright test --grep @smoke` ou rode os mesmos argumentos via Git Bash / WSL.
 
 ---
 
 ## Sampling Rate
 
-- **After every task commit:** `npx playwright test --grep @smoke` quando o commit tocar auth/RLS/E2E
-- **After every plan wave:** `npx playwright test --grep @smoke`
-- **Before `/gsd-verify-work`:** suite smoke (mínimo) verde
+- **After every task commit:** `npm run test:e2e:smoke` quando o commit tocar auth/RLS/E2E
+- **After every plan wave:** `npm run test:e2e:smoke`
+- **Before `/gsd-verify-work`:** suite smoke (mínimo) verde (`npm run test:e2e:smoke` ou `npm run test:e2e`)
 - **Max feedback latency:** ~30 segundos (smoke)
 
 ---
@@ -43,10 +60,10 @@ updated: 2026-04-17
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 1-06-a1 | 06 | 1 | AUTH-01 | — | Rotas protegidas exigem sessão; login oferece Google; fluxo autenticado redireciona | E2E smoke | `npx playwright test --grep @auth-01` | `auth-unauthenticated.spec.ts`, `auth.spec.ts` | ✅ green |
-| 1-06-a2 | 06 | 1 | AUTH-02 | — | Sessão persiste após reload (cookies / storage) | E2E smoke | `npx playwright test --grep @auth-02` | `auth.spec.ts` | ✅ green |
-| 1-06-a3 | 06 | 1 | AUTH-03 | — | RLS impede leitura de dados de outro usuário | Integration (API) | `npx playwright test --grep @auth-03` | `rls.spec.ts` | ✅ green |
-| 1-06-a4 | 06 | 1 | AUTH-04 | — | Perfil exibe dados do usuário; logout e UI read-only | E2E smoke | `npx playwright test --grep @auth-04` | `auth.spec.ts` | ✅ green |
+| 1-06-a1 | 06 | 1 | AUTH-01 | — | Rotas protegidas exigem sessão; login oferece Google; fluxo autenticado redireciona | E2E smoke | `npm run test:e2e:auth-01` | `auth-unauthenticated.spec.ts`, `auth.spec.ts` | ✅ green |
+| 1-06-a2 | 06 | 1 | AUTH-02 | — | Sessão persiste após reload (cookies / storage) | E2E smoke | `npm run test:e2e:auth-02` | `auth.spec.ts` | ✅ green |
+| 1-06-a3 | 06 | 1 | AUTH-03 | — | RLS impede leitura de dados de outro usuário | Integration (API) | `npm run test:e2e:auth-03` | `rls.spec.ts` | ✅ green |
+| 1-06-a4 | 06 | 1 | AUTH-04 | — | Perfil exibe dados do usuário; logout e UI read-only | E2E smoke | `npm run test:e2e:auth-04` | `auth.spec.ts` | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 

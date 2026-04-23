@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test'
 import { createClient } from '@supabase/supabase-js'
 
-import { loadEnvFromDotEnvLocal } from './helpers/env'
+import { loadEnvFromDotEnvTest } from './helpers/env'
 
-loadEnvFromDotEnvLocal()
+loadEnvFromDotEnvTest()
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'http://localhost:54321'
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''

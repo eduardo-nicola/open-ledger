@@ -15,11 +15,11 @@ Guia único de referência para rodar os testes Playwright do OPEN-LEDGER. Cobre
   supabase db reset       # aplica migrations + seed (cria test@open-ledger.local)
   ```
 
-- Arquivo `.env.local` criado a partir de `.env.example` com as variáveis obrigatórias:
+- Arquivo **`.env.test`** na raiz do repo (carregado pelo Playwright) criado a partir de `.env.example` com as variáveis obrigatórias:
 
   ```bash
-  cp .env.example .env.local
-  # editar .env.local e preencher:
+  cp .env.example .env.test
+  # editar .env.test e preencher:
   #   NEXT_PUBLIC_SUPABASE_URL   — saída de `supabase start` (linha "API URL")
   #   NEXT_PUBLIC_SUPABASE_ANON_KEY — saída de `supabase start` (linha "anon key")
   ```
@@ -28,7 +28,7 @@ Guia único de referência para rodar os testes Playwright do OPEN-LEDGER. Cobre
 - Para o modo `google` (OAuth real), configure também no provedor Google do Supabase local:
   - `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` (Google Cloud Console)
   - Redirect URI autorizado: `http://127.0.0.1:54321/auth/v1/callback`
-  - Opcionalmente, adicione ao `.env.local` para automação de preenchimento:
+  - Opcionalmente, adicione ao `.env.test` para automação de preenchimento:
     ```
     E2E_GOOGLE_TEST_EMAIL=sua-conta-de-teste@gmail.com
     E2E_GOOGLE_TEST_PASSWORD=senha-da-conta-de-teste
@@ -138,7 +138,7 @@ Use quando o browser **não possui sessão Google ativa** — fluxo completo de 
 
 | Cenário | Comando | `E2E_AUTH_MODE` | Headless/Headed | Notas |
 |---------|---------|-----------------|-----------------|-------|
-| Smoke local (padrão) | `npm run test:e2e:smoke` | `password` ou vazio | Headless | CI/local padrão; requer apenas seed e `.env.local` |
+| Smoke local (padrão) | `npm run test:e2e:smoke` | `password` ou vazio | Headless | CI/local padrão; requer apenas seed e `.env.test` |
 | Smoke com Google OAuth | `npm run test:e2e:google` | `google` (exportado pelo script) | Headed Chrome | Requer segredos / sessão Google; job opcional em CI |
 | Todos os cenários @auth | `npm run test:e2e:auth` | Conforme env (`password` ou `google`) | Headless (password) / Headed (google) | Superconjunto de smoke; grep `@auth` pega `@auth-01`, `@auth-04a`… |
 | Suite completa | `npx playwright test` | Conforme env | Headless (password) / Headed (google) | Todos os projetos: setup + chromium + chromium-unauth |

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:e2e:smoke": "playwright test --grep @smoke",
+    "test:e2e:auth": "playwright test --grep @auth",
+    "test:e2e:google": "env E2E_AUTH_MODE=google playwright test --grep @smoke"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",

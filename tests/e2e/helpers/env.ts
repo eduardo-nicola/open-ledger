@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 
-/** Carrega variáveis de `.env.local` quando ainda não estão no ambiente (Playwright). */
-export const loadEnvFromDotEnvLocal = (): void => {
-  const envPath = path.join(__dirname, '../../../.env.local')
+/** Carrega variáveis de `.env.test` quando ainda não estão no ambiente (Playwright). */
+export const loadEnvFromDotEnvTest = (): void => {
+  const envPath = path.join(__dirname, '../../../.env.test')
   if (!fs.existsSync(envPath)) {
     return
   }
