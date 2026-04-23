@@ -1,13 +1,12 @@
 ---
 phase: 2
 reviewers:
-  - gemini (ausente)
-  - claude (falha — não autenticado)
-  - codex (ausente)
-  - coderabbit (ausente)
-  - opencode (ausente)
-  - fallback-cursor (revisão estruturada interna)
-reviewed_at: 2026-04-23T00:50:29.215Z
+  - gemini (CLI — executado)
+  - claude (CLI — falha: não autenticado)
+  - codex (ausente no PATH)
+  - coderabbit (ausente no PATH)
+  - opencode (ausente no PATH)
+reviewed_at: 2026-04-23T00:59:04.736Z
 plans_reviewed:
   - 02-01-PLAN.md
   - 02-02-PLAN.md
@@ -17,13 +16,43 @@ plans_reviewed:
 
 # Cross-AI Plan Review — Phase 2
 
-Execução do workflow `/gsd-review --phase 2 --all` neste ambiente: apenas o binário `claude` estava no PATH; `gemini`, `codex`, `coderabbit` e `opencode` não foram encontrados. A chamada ao Claude Code CLI retornou erro de login (ver seção Claude). A seção **Fallback** abaixo entrega revisão estruturada útil para `/gsd-plan-phase 2 --reviews` até que CLIs externos estejam instalados e autenticados.
+Execução de `/gsd-review --phase 2 --all`: **Gemini CLI** concluiu revisão headless (`gemini -p … --approval-mode plan`). **Claude Code CLI** segue sem sessão (`Not logged in · Please run /login`). **Codex**, **CodeRabbit** e **OpenCode** não estão no PATH. O consenso abaixo reflete principalmente o Gemini; não há segunda opinião CLI independente nesta rodada.
 
 ---
 
 ## Gemini Review
 
-*Não executado — CLI `gemini` não instalada no PATH (`command -v gemini`). Instalação sugerida: [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli).*
+Este é o review técnico dos planos de implementação para a **Fase 2: Account Management** do projeto OPEN-LEDGER.
+
+### 1. Summary
+
+Os planos para a Fase 2 estão excepcionalmente bem estruturados e demonstram uma compreensão profunda dos requisitos (ACC-01 a ACC-05) e das decisões de design (D-01 a D-14). A estratégia de dividir a implementação em quatro ondas (Wave 1: Schema, Wave 2: Domínio/Actions, Wave 3: UI/Gráficos, Wave 4: E2E) é correta e minimiza riscos de integração. O uso de `revalidatePath` para simular o "tempo real" atende à restrição de evitar WebSockets na v1, e a decisão de usar uma série constante para o gráfico de evolução até a implementação das transações (Fase 3) é uma solução pragmática e limpa para entregar valor imediato sem violar os limites da fase.
+
+### 2. Strengths
+
+- **Rastreabilidade:** O mapeamento direto entre as tags dos testes E2E (`@acc-01` a `@acc-05`) e os requisitos de negócio garante uma cobertura verificável.
+- **Segurança (RLS):** O plano reforça o uso das policies de Row Level Security existentes, garantindo que o `user_id` nunca seja injetado pelo cliente, mas derivado da sessão no servidor.
+- **Arquitetura pragmática:** A decisão de implementar o gráfico de evolução (ACC-05) como uma série constante baseada no saldo atual evita a complexidade de calcular acumulados de transações que ainda não existem formalmente no fluxo.
+- **Qualidade da UI:** A inclusão de `data-testid` específicos (ex.: `consolidated-balance-cents`) nos planos de UI facilita a automação de testes robustos.
+- **Conformidade visual:** A paleta de cores fixa e os estados visuais para contas arquivadas (opacidade 60%) seguem rigorosamente as diretrizes mobile-first e a inspiração no Mobills.
+
+### 3. Concerns
+
+- **Edge case de calendário (LOW):** O uso de `BETWEEN 1 AND 31` para `closing_day` no SQL é funcional, mas meses como fevereiro exigirão lógica de "clamp" (limitar ao último dia do mês) na Fase 5. O plano menciona isso em comentários, o que mitiga o risco imediato.
+- **Tailwind v4 vs shadcn (LOW):** O projeto utiliza Tailwind v4 (`tailwindcss: 4.1.14`). A execução de `npx shadcn@latest add chart` pode exigir ajustes manuais no `globals.css` se o CLI do shadcn tentar injetar tokens no formato v3.
+- **Sincronia de tipos (MEDIUM):** O plano 02-01 sugere atualização manual de `types/database.ts`. Embora seguro, há risco de erro humano. Recomenda-se priorizar `supabase gen types` se o ambiente local permitir.
+
+### 4. Suggestions
+
+- **Validação do tipo de conta:** No Zod schema (`lib/accounts/schema.ts`), certifique-se de que a validação de `closing_day`/`due_day` seja condicionada via `.refine()` ou `z.discriminatedUnion()` para garantir que esses campos sejam `null` em contas que não são `credit_card`.
+- **Empty state do gráfico:** Na Wave 3, ao implementar o `BalanceChart`, considere exibir um "Skeleton" ou estado de carregamento explícito enquanto a query server-side é resolvida para evitar saltos de layout (CLS) no mobile.
+- **Formatação de moeda:** Centralize a lógica de formatação de centavos para BRL em `lib/utils.ts` (ex.: `formatCentsToBRL`) para garantir consistência entre o saldo da lista e o eixo Y do gráfico.
+
+### 5. Risk Assessment
+
+**Overall risk: LOW**
+
+A justificativa para o risco baixo é a clareza dos contratos entre as fases e a dependência mínima de novas tecnologias (apenas `recharts`). O isolamento entre a lógica de persistência e a UI, aliado a uma suíte de testes E2E que já nasce integrada à config do Playwright, torna a execução segura e fácil de validar.
 
 ---
 
@@ -37,13 +66,13 @@ Execução do workflow `/gsd-review --phase 2 --all` neste ambiente: apenas o bi
 Not logged in · Please run /login
 ```
 
-**Próximo passo:** no mesmo ambiente, autenticar o Claude Code (`/login` na sessão interativa ou credenciais conforme documentação) e rodar novamente `/gsd-review --phase 2 --all`.
+**Próximo passo:** autenticar o Claude Code neste ambiente e repetir `/gsd-review --phase 2 --all` para obter segunda opinião.
 
 ---
 
 ## Codex Review
 
-*Não executado — CLI `codex` não instalada no PATH. Referência: [openai/codex](https://github.com/openai/codex).*
+*Não executado — CLI `codex` não instalada no PATH.*
 
 ---
 
@@ -55,67 +84,33 @@ Not logged in · Please run /login
 
 ## OpenCode Review
 
-*Não executado — CLI `opencode` não instalada no PATH. Referência: [opencode.ai](https://opencode.ai).*
-
----
-
-## Fallback: revisão estruturada (orquestrador)
-
-Análise manual dos artefatos da Fase 2 (CONTEXT, RESEARCH, `02-01` … `02-04`) quando não houve saída bem-sucedida de CLI externo.
-
-### 1. Summary
-
-A sequência em quatro ondas (schema → domínio servidor → UI → E2E) está coerente com dependências e com o roadmap. Há decisões produto/tecnologia bem explícitas (consolidado sem cartão/arquivada, série constante pré-Fase 3, paleta fixa). Os principais riscos são **teste ACC-04 com service role** (ordem, isolamento e flocos), **empty state do gráfico vs saldo zero** (critério grepável pode mascarar “sem dados” vs “saldo 0”), e **UTC vs fuso** na série de 30 dias para ACC-05.
-
-### 2. Strengths
-
-- Ordem **02-01 → 02-04** evita UI antes do schema; `depends_on` alinhado.
-- **RLS + sessão** nas actions, sem `user_id` vindo do cliente — bom para STRIDE.
-- **Série constante ACC-05** documentada e grepável evita divergência com transações antes da Fase 3.
-- **Consolidado** alinhado a D-07 e exclusão explícita de `savings` no sum (coerente com UI só com três tipos).
-- **E2E** com `data-testid` / `data-value` e tags `@acc-*` + `@smoke` mantém rastreio TST-04.
-- **Threat model** por plano reforça revisão de segurança incremental.
-
-### 3. Concerns (severidade)
-
-- **MEDIUM — ACC-04 E2E:** `beforeAll` com service role para ajustar saldos exige contas criadas na UI com IDs conhecidos, ordem determinística e limpeza; risco de teste flaky ou acoplamento ao seed se documentação/env não forem rigorosos.
-- **MEDIUM — Empty state do gráfico (02-03):** condição “todos os pontos `balanceCents === 0`” pode mostrar empty state para conta válida com saldo zero (UX aceitável?) e omitir distinção “sem transações ainda” vs “zero real”; alinhar com D-14.
-- **MEDIUM — `supabase db push` no 02-01:** plano `autonomous: false` e verificação com pipeline `tee`/`rg` pode falhar em CI sem daemon; aceitável se SUMMARY documentar, mas risco de “plano verde no papel” sem push real.
-- **LOW — UTC nas datas da série:** comentário “hoje UTC” vs usuário BR pode deslocar um dia na borda do gráfico; documentar ou usar timezone explícito na Fase 3.
-- **LOW — `revalidatePath('/accounts/[id]')`:** template com id dinâmico está correto; garantir que edit/detail usem o mesmo segmento de rota que a revalidação.
-- **LOW — Nav `activeInPhase1`:** nome do flag pode confundir leitores (“Phase 2” habilitando `activeInPhase1`); só cosmético se comportamento estiver certo.
-
-### 4. Suggestions
-
-- No **02-04 README**, explicar matriz: criar contas → capturar `id` → service role `update balance` → assert consolidado, com exemplo de snippet ou pseudo-código.
-- No **02-03**, considerar empty state quando **não existir linha em `transactions`** (futuro) ou, até lá, microcopy que deixe claro “saldo atual constante no período” para não prometer movimento que ainda não existe.
-- Após primeiro `supabase gen types`, diffar contra convenções manuais de `types/database.ts` para não regressar unions (`type` incl. `savings`).
-- Opcional: um teste **negativo** RLS ou Zod (nome vazio / dias cartão inválidos) em unit ou E2E leve — fora do escopo mínimo, mas reduz regressão.
-
-### 5. Risk Assessment
-
-**MEDIUM** — A arquitetura e o fatiamento são sólidos; o maior risco de implementação está na **interação E2E + service role + dados consistentes** e no **polimento do empty state / saldo zero** do gráfico. Nada indica bloqueio de escopo para ACC-01..05 se a Fase 01.1 estiver realmente concluída como dependência.
+*Não executado — CLI `opencode` não instalada no PATH.*
 
 ---
 
 ## Consensus Summary
 
-*Não foi possível consenso multi-modelo:* nenhum CLI externo (Gemini, Codex, OpenCode, CodeRabbit) executou revisão; o Claude Code CLI falhou por falta de login.
+Há **apenas uma** revisão CLI bem-sucedida (Gemini); consenso multi-modelo é **parcial**.
 
-### Agreed Strengths
+### Agreed strengths
 
-*Indisponível entre múltiplos revisores. O fallback acima lista pontos fortes consolidados na leitura dos planos.*
+- Ondas 02-01 → 02-04 bem ordenadas; contratos claros entre schema, domínio, UI e E2E.
+- RLS + `user_id` a partir da sessão, não do cliente.
+- ACC-05 como série constante até a Fase 3 é pragmático e alinhado ao escopo.
+- `data-testid` / tags `@acc-*` favorecem rastreio e smoke estável.
 
-### Agreed Concerns
+### Agreed concerns (prioridade)
 
-*Indisponível entre múltiplos revisores. Prioridade sugerida a partir do fallback: (1) robustez do teste ACC-04, (2) semântica empty state vs saldo zero, (3) push/CI do 02-01.*
+1. **MEDIUM — Tipos TS vs schema:** preferir `supabase gen types` quando possível para reduzir drift em `types/database.ts`.
+2. **LOW — shadcn chart + Tailwind v4:** validar tokens/`globals.css` após `npx shadcn add chart`.
+3. **LOW — Dias 1–31 vs calendário real:** aceitável na Fase 2; clamp explícito na Fase 5 (já antecipado nos planos).
 
-### Divergent Views
+### Divergent views
 
-*N/A — sem duas ou mais revisões independentes bem-sucedidas.*
+*Não aplicável nesta rodada — Claude/Codex/OpenCode/CodeRabbit não produziram revisão.*
 
 ---
 
-*Para incorporar feedback no planejamento:* `/gsd-plan-phase 2 --reviews`
+*Incorporar no planejamento:* `/gsd-plan-phase 2 --reviews`
 
-*Para repetir a revisão multi-IA:* instale e autentique pelo menos dois CLIs (ex.: Gemini + Codex, ou Claude autenticado + Gemini) e execute `/gsd-review --phase 2 --all` novamente.
+*Melhorar cobertura de peer review:* instalar/autenticar **Claude** ou **Codex** e rodar `/gsd-review --phase 2 --all` de novo.
