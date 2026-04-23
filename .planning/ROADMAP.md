@@ -74,8 +74,14 @@ Plans:
 3. Cartão de crédito pode ser configurado com dia de fechamento e dia de vencimento
 4. Tela principal exibe saldo consolidado em tempo real (soma de contas bancárias e carteiras, excluindo cartões)
 5. Usuário pode visualizar o histórico de evolução de saldo por conta em gráfico de linha
-**Plans**: TBD
+**Plans**: 4 planos em 4 waves
 **UI hint**: yes
+
+Plans:
+- [ ] 02-01-PLAN.md — Migration `closing_day`/`due_day`, `supabase db push`, tipos `types/database.ts` (Wave 1)
+- [ ] 02-02-PLAN.md — Zod, Server Actions, queries consolidadas, regra ACC-05 série constante (Wave 2)
+- [ ] 02-03-PLAN.md — Rotas `/accounts`, Recharts+shadcn chart, nav habilitada, UI-SPEC (Wave 3)
+- [ ] 02-04-PLAN.md — Playwright `accounts.spec.ts` @acc-01..05, config, README (Wave 4)
 
 ---
 
@@ -172,7 +178,7 @@ Phases execute in numeric order: 1 → 01.1 → 2 → 3 → 4 → 5 → 6 → 7
 | ------------------------ | -------------- | ----------- | --------- |
 | 1. Infrastructure & Auth | 0/5            | Not started | -         |
 | 01.1. E2E clarity (TST)  | 4/4 | Complete    | 2026-04-22 |
-| 2. Account Management    | 0/?            | Not started | -         |
+| 2. Account Management    | 0/4            | Not started | -         |
 | 3. Transactions & Tags   | 0/?            | Not started | -         |
 | 4. Installments          | 0/?            | Not started | -         |
 | 5. Credit Card Invoices  | 0/?            | Not started | -         |
