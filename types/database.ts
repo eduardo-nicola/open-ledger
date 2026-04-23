@@ -25,6 +25,8 @@ export interface Database {
           color: string
           balance: number
           currency: string
+          closing_day: number | null
+          due_day: number | null
           created_at: string
           updated_at: string
           archived_at: string | null
@@ -37,6 +39,8 @@ export interface Database {
           color?: string
           balance?: number
           currency?: string
+          closing_day?: number | null
+          due_day?: number | null
           created_at?: string
           updated_at?: string
           archived_at?: string | null
@@ -47,6 +51,8 @@ export interface Database {
           color?: string
           balance?: number
           currency?: string
+          closing_day?: number | null
+          due_day?: number | null
           updated_at?: string
           archived_at?: string | null
         }
